@@ -1,1 +1,1 @@
-# MathGenerator API documentation
+# Math Generator API documentation
