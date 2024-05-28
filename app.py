@@ -30,7 +30,7 @@ def main():
         os.mkdir("db")
     db_session.global_init("db/MathGenerator.db")
     add_resources()
-    app.run()
+    app.run(host=os.getenv("HOST"), port=os.getenv("PORT"))
 
 
 if __name__ == "__main__":
