@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
+from flask_oidc import OpenIDConnect
 from dotenv import load_dotenv
 import os
 
@@ -12,8 +13,16 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-app.config["JSON_AS_ASCII"] = False
+
+app.config.update({
+    "SECRET_KEY": os.getenv("SECRET_KEY"),
+    "JSON_AS_ASCII": False,
+    # "OIDC_CLIENT_SECRETS": "client_secrets.json",
+    # "OIDC_CALLBACK_ROUTE": "/oidc/callback",
+    # "OIDC_SCOPES": ["openid", "email", "profile"]
+})
+
+# oidc = OpenIDConnect(app)
 
 
 @app.route("/")
@@ -23,6 +32,7 @@ def check_work():
 
 def add_resources():
     api = Api(app)
+    api.add_resource(RatingResource, "api/rating")
 
 
 def main():
