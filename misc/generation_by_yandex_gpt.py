@@ -3,7 +3,7 @@ import re
 import os
 
 
-def format_text(text):
+def text_formation(text):
     text = re.sub(r'\*\*', '', text)
     parts = re.split(r'(Задание:|Ответ:)', text, flags=re.IGNORECASE)
     if len(parts[2]) > 150 or len(parts) < 5:
@@ -29,7 +29,7 @@ def yandex_gpt_generation(url, headers, prompt):
         print("Restart generation because of Yandex GPT error:", e)
         return yandex_gpt_generation(url, headers, prompt)
 
-    formatted_result = format_text(result)
+    formatted_result = text_formation(result)
     if formatted_result is None:
         print('Restart generation because of request misunderstanding')
         return yandex_gpt_generation(url, headers, prompt)
