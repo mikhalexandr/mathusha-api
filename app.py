@@ -17,8 +17,16 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 # run_with_ngrok(app)
 
+oidc = OpenIDConnect(app)
+
+keycloak_openid = KeycloakOpenID(server_url=os.getenv("SERVER_URL"),
+                                 client_id=os.getenv("CLIENT_ID"),
+                                 realm_name=os.getenv("REALM_NAME"),
+                                 client_secret_key=os.getenv("CLIENT_SECRET_KEY"))
+
 app.config.update({
     "SECRET_KEY": os.getenv("SECRET_KEY"),
+    "JSON_AS_ASCII": False,
     'OIDC_CLIENT_SECRETS': 'client_secrets.json',
     'OIDC_ID_TOKEN_COOKIE_SECURE': False,
     'OIDC_USER_INFO_ENABLED': True,
@@ -28,13 +36,6 @@ app.config.update({
     'OIDC_INTROSPECTION_AUTH_METHOD': 'client_secret_post'
 })
 
-oidc = OpenIDConnect(app)
-
-keycloak_openid = KeycloakOpenID(server_url="http://localhost:8080/",
-                                 client_id="login-app",
-                                 realm_name="mathusha-user",
-                                 client_secret_key="hRes3Eaz5AsdpTLhqVarmautvWK1RsWr")
-
 
 @app.route("/")
 def check_work():
@@ -43,7 +44,6 @@ def check_work():
 
 def add_resources():
     api = Api(app)
-    api.add_resource(RatingResource, "api/rating")
 
 
 def main():

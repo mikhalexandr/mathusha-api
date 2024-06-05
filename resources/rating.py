@@ -3,12 +3,12 @@ from flask import jsonify, request
 
 from data import db_session
 from data.users import User
-from app import oidc
+# from app import oidc
 
 
 class RatingResource(Resource):
     @staticmethod
-    @oidc.require_login
+    # @oidc.require_login
     def get():
         name = request.json["name"]
         session = db_session.create_session()
