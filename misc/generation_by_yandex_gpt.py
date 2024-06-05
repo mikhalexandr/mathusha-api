@@ -6,7 +6,6 @@ import os
 def format_text(text):
     text = re.sub(r'\*\*', '', text)
     parts = re.split(r'(Задание:|Ответ:)', text, flags=re.IGNORECASE)
-    print(parts)
     if len(parts[2]) > 150 or len(parts) < 5:
         return None
     formatted_parts = []
@@ -22,7 +21,22 @@ def format_text(text):
     return formatted_parts[2], formatted_parts[4]
 
 
-def yandex_gpt_generation():
+def yandex_gpt_generation(url, headers, prompt):
+    try:
+        response = requests.post(url, headers=headers, json=prompt)
+        result = response.json()['result']['alternatives'][0]['message']['text']
+    except Exception as e:
+        print("Restart generation because of Yandex GPT error:", e)
+        return yandex_gpt_generation(url, headers, prompt)
+
+    formatted_result = format_text(result)
+    if formatted_result is None:
+        print('Restart generation because of request misunderstanding')
+        return yandex_gpt_generation(url, headers, prompt)
+    return formatted_result
+
+
+def yandex_gpt_setup():
     prompt = {
         "modelUri": f"gpt://{os.getenv('YANDEX_GPT_DIRECTORY_ID')}/yandexgpt-lite",
         "completionOptions": {
@@ -55,14 +69,4 @@ def yandex_gpt_generation():
         "Authorization": f"Api-Key {os.getenv('YANDEX_GPT_API_KEY')}"
     }
 
-    try:
-        response = requests.post(url, headers=headers, json=prompt)
-        result = response.json()['result']['alternatives'][0]['message']['text']
-    except Exception as e:
-        print("Restart generation because of Yandex GPT error:", e)
-        return yandex_gpt_generation()
-    formatted_result = format_text(result)
-    if formatted_result is None:
-        print('Restart generation because of request misunderstanding')
-        return yandex_gpt_generation()
-    return formatted_result
+    return yandex_gpt_generation(url, headers, prompt)
