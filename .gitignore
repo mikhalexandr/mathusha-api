@@ -1,5 +1,6 @@
 .idea
 venv
 
+client_secrets.json
 .env
 db
