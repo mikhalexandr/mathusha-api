@@ -4,17 +4,54 @@ import random
 import re
 
 
-def arithmetic_generation(complexity):
-    id_ = random.randint(0, 3)
+def addition_generation(complexity):
+    id_ = 0
     problem, solution = None, None
     if complexity == 0:
-        problem, solution = mathgenerator.genById(id_, 19, 19) if id_ != 2 else mathgenerator.genById(id_, 19)
+        problem, solution = mathgenerator.genById(id_, 19, 19)
     if complexity == 1:
-        problem, solution = mathgenerator.genById(id_, 49, 49) if id_ != 2 else mathgenerator.genById(id_, 49)
+        problem, solution = mathgenerator.genById(id_, 49, 49)
     if complexity == 2:
-        problem, solution = mathgenerator.genById(id_, 99, 99) if id_ != 2 else mathgenerator.genById(id_, 99)
-    problem = re.sub(r'\\div|\\cdot', lambda match: {'\\div': ':', '\\cdot': '*'}[match.group(0)], problem)
-    return problem[1:-2] if id_ != 2 else problem[1:-1], solution[1:-1]
+        problem, solution = mathgenerator.genById(id_, 99, 99)
+    return problem[1:-2], solution[1:-1]
+
+
+def subtraction_generation(complexity):
+    id_ = 1
+    problem, solution = None, None
+    if complexity == 0:
+        problem, solution = mathgenerator.genById(id_, 19, 19)
+    if complexity == 1:
+        problem, solution = mathgenerator.genById(id_, 49, 49)
+    if complexity == 2:
+        problem, solution = mathgenerator.genById(id_, 99, 99)
+    return problem[1:-2], solution[1:-1]
+
+
+def multiplication_generation(complexity):
+    id_ = 2
+    problem, solution = None, None
+    if complexity == 0:
+        problem, solution = mathgenerator.genById(id_, 19)
+    if complexity == 1:
+        problem, solution = mathgenerator.genById(id_, 49)
+    if complexity == 2:
+        problem, solution = mathgenerator.genById(id_, 99)
+    problem = re.sub(r'\\cdot', '*', problem)
+    return problem[1:-1], solution[1:-1]
+
+
+def division_generation(complexity):
+    id_ = 3
+    problem, solution = None, None
+    if complexity == 0:
+        problem, solution = mathgenerator.genById(id_, 19)
+    if complexity == 1:
+        problem, solution = mathgenerator.genById(id_, 49)
+    if complexity == 2:
+        problem, solution = mathgenerator.genById(id_, 99)
+    problem = re.sub(r'\\div', '/', problem)
+    return problem[1:-2], solution[1:-1]
 
 
 def root_generation(complexity):
@@ -39,18 +76,40 @@ def power_generation(complexity):
         id_ = 8
         problem, solution = mathgenerator.genById(id_, 20)
     if complexity == 1:
-        n, power = random.randint(1, 6), random.randint(0, 6)
-        problem, solution = str(f'${n}^{power}=$'), str(f'${n ** power}$')
+        id_ = 53
+        problem, solution = mathgenerator.genById(id_, 5, 5)
     if complexity == 2:
-        n = random.randint(1, 5)
-        power1, power2 = random.randint(1, 5), random.randint(1, 5)
+        n = random.randint(1, 6)
+        for_add1, for_add2 = random.randint(1, 4), random.randint(1, 4)
+        for_sub1, for_sub2 = random.randint(1, 4), random.randint(1, 4)
+        if for_sub1 < for_sub2:
+            for_sub1, for_sub2 = for_sub2, for_sub1
+        for_multi1, for_multi2 = random.randint(1, 4), random.randint(1, 4)
         possible = [
-            (f'${n}^{power1}*{n}^{power2}=$', f'${n ** (power1 + power2)}$'),
-            (f'${n}^{power1}:{n}^{power2}=$', f'${n ** (power1 - power2)}$'),
-            (f'$({n}^{power1})^{power2}=$', f'${n ** (power1 * power2)}$')
+            (f'${n}^{for_add1}*{n}^{for_add2}=$', f'${n ** (for_add1 + for_add2)}$'),
+            (f'${n}^{for_sub1}:{n}^{for_sub2}=$', f'${n ** (for_sub1 - for_sub2)}$'),
+            (f'$({n}^{for_multi1})^{for_multi2}=$', f'${n ** (for_multi1 * for_multi2)}$')
         ]
         id_ = random.randint(0, 2)
         problem, solution = possible[id_][0], possible[id_][1]
+    replacements = {
+        '0': '⁰',
+        '1': '¹',
+        '2': '²',
+        '3': '³',
+        '4': '⁴',
+        '5': '⁵',
+        '6': '⁶',
+        '7': '⁷',
+        '8': '⁸',
+        '9': '⁹'
+    }
+
+    def replace_superscript(match):
+        digit = match.group(1)
+        return replacements[digit]
+
+    problem = re.sub(r'\^(\d)', replace_superscript, problem)
     return problem[1:-2], solution[1:-1]
 
 
@@ -93,6 +152,25 @@ def logarithm_generation(complexity):
     return problem[1:-2], solution[1:-1]
 
 
+def trigonometric_values_generation(complexity):
+    id_ = 57
+    problem, solution = None, None
+    if complexity == 0:
+        problem, solution = mathgenerator.genById(id_, [30, 45, 60], ['sin', 'cos'])
+    if complexity == 1:
+        problem, solution = mathgenerator.genById(id_, [0, 30, 45, 60, 90], ['sin', 'cos'])
+    if complexity == 2:
+        problem, solution = mathgenerator.genById(id_, [0, 30, 45, 60, 90], ['sin', 'cos', 'tan'])
+    solution = re.sub(r'{|}|\$|=|\\sqrt|\\infty',
+                     lambda match: {'{': '', '}': '', '$': '', '=': '', r'\sqrt': '√', '\\infty': '∞'}[match.group(0)],
+                      solution)
+    solution = re.sub(r'\\frac12|\\frac1√3|\\frac1√2|\\frac√32',
+                     lambda match: {'\\frac12': '1/2', '\\frac1√3': '√3/3', '\\frac1√2': '√2/2', '\\frac√32': '√3/2'}
+                     [match.group(0)],
+                      solution)
+    return problem[2:-4], solution
+
+
 def linear_equation_generation(complexity):
     id_simple, id_hard = 11, 26
     problem, solution = None, None
@@ -116,24 +194,54 @@ def quadratic_equation_generation(complexity):
     p, q = (x1 + x2) * -1, x1 * x2
     p_to_pr, q_to_pr = f'+{abs(p)}' if p >= 0 else f'-{abs(p)}', f'+{abs(q)}' if q >= 0 else f'-{abs(q)}'
     problem, solution = f'$x^2{p_to_pr}x{q_to_pr}=0$', f'$x1={x1}, x2={x2}$'
+    problem, solution = re.sub(r'([+=-])', r' \1 ', problem), re.sub(r'(=)', r' \1 ', solution)
+    problem = re.sub(r'\^2', '²', problem)
     return problem[1:-1], solution[1:-1]
 
 
 def linear_inequality_generation(complexity):
-    pass
-
-
-def quadratic_inequality_generation(complexity):
-    pass
+    operators = ["<", ">", "<=", ">="]
+    variable = "x"
+    operator = random.choice(operators)
+    coefficient1, coefficient2, constant = None, None, None
+    if complexity == 0:
+        coefficient1 = random.randint(1, 5)
+        coefficient2 = random.randint(1, 5)
+        constant = random.randint(1, 10)
+    if complexity == 1:
+        coefficient1 = random.randint(-5, 5)
+        coefficient2 = random.randint(-5, 5)
+        constant = random.randint(-10, 10)
+    if complexity == 2:
+        coefficient1 = random.randint(-10, 10)
+        coefficient2 = random.randint(-10, 10)
+        constant = random.randint(-20, 20)
+    while (coefficient1 - coefficient2) == 0 or constant % (coefficient1 - coefficient2) != 0:
+        coefficient1 = random.randint(-10, 10)
+        coefficient2 = random.randint(-10, 10)
+        constant = random.randint(-20, 20)
+    swap_sides = random.choice([True, False])
+    if swap_sides:
+        problem = f"{coefficient2}{variable} + {constant} {operator} {coefficient1}{variable}"
+    else:
+        problem = f"{coefficient1}{variable} {operator} {coefficient2}{variable} + {constant}"
+    if coefficient1 == coefficient2:
+        solution = "Все числа удовлетворяют неравенству" if constant > 0 else "Нет решений"
+    else:
+        solution = f"{variable} {operator} {constant // (coefficient1 - coefficient2)}"
+    problem = re.sub(r"(>=)|(<=)", lambda match: "≥" if match.group(1) else "≤", problem)
+    solution = re.sub(r"(>=)|(<=)", lambda match: "≥" if match.group(1) else "≤", solution)
+    return problem, solution
 
 
 def mixed_generation(complexity, *selected_ids):
     selected_ids = list(selected_ids)
     if len(selected_ids) == 0:
         return "No topic id selected :("
-    list_of_expressions = [arithmetic_generation, root_generation, power_generation, fractional_to_decimal_generation,
-                           factorial_generation, logarithm_generation, linear_equation_generation,
-                           quadratic_equation_generation, linear_inequality_generation, quadratic_inequality_generation]
+    list_of_expressions = [addition_generation, subtraction_generation, multiplication_generation, division_generation,
+                           root_generation, power_generation, fractional_to_decimal_generation, factorial_generation,
+                           logarithm_generation, trigonometric_values_generation, linear_equation_generation,
+                           quadratic_equation_generation, linear_inequality_generation]
     chosen_list = [i for i in list_of_expressions if list_of_expressions.index(i) in selected_ids]
     random_expression = random.choice(chosen_list)
     return random_expression(complexity)
