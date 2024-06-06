@@ -9,6 +9,7 @@ class ThemeExpression(SqlAlchemyBase):
 
     problem = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
     solution = sqlalchemy.Column(sqlalchemy.String)
+    complexity = sqlalchemy.Column(sqlalchemy.Integer)
     theme_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('themes.name'))
 
     theme = orm.relationship(

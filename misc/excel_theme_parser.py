@@ -12,17 +12,19 @@ def excel_to_db(excel_file_path):
         df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
         theme = Theme(
             name=sheet_name,
-            image=str(df.iloc[0, 2]),
-            description=str(df.iloc[1, 2])
+            image=str(df.iloc[0, 3]),
+            description=str(df.iloc[1, 3])
         )
         session.add(theme)
         for i in range(len(df)):
             problem = str(df.iloc[i, 0])
             solution = str(df.iloc[i, 1])
+            complexity = int(df.iloc[i, 2])
             expression = ThemeExpression(
                 theme_id=sheet_name,
                 problem=problem,
-                solution=solution
+                solution=solution,
+                complexity=complexity
             )
             session.add(expression)
     session.commit()
