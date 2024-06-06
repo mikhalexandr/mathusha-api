@@ -1,4 +1,4 @@
-# from .excel_theme_parser import excel_to_db
+from .excel_theme_parser import excel_to_db
 from .generation_by_yandex_gpt import yandex_gpt_setup
 from .generation_expressions import (addition_generation, subtraction_generation, multiplication_generation,
                                      division_generation, root_generation, power_generation,

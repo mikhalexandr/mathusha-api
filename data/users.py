@@ -9,7 +9,7 @@ class User(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.String, primary_key=True, unique=True, nullable=False)
     username = sqlalchemy.Column(sqlalchemy.String)
-    photo = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     rating = sqlalchemy.Column(sqlalchemy.Float, default=0)
 
     user_progress = orm.relationship(
