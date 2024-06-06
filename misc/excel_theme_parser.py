@@ -1,8 +1,8 @@
 import pandas as pd
 
 from data import db_session
-from data.themes import Theme
-from data.themes_expressions import ThemeExpression
+from data.topics import Theme
+from data.topic_expressions import ThemeExpression
 
 
 def excel_to_db(excel_file_path):
