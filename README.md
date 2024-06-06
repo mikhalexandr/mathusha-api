@@ -1,1 +1,1 @@
-# Math Generator API documentation
+# Mathusha API
