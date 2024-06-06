@@ -127,13 +127,13 @@ def quadratic_inequality_generation(complexity):
     pass
 
 
-def mixed_generation(complexity, *chosen_ids):
-    chosen_ids = list(chosen_ids)
-    if len(chosen_ids) == 0:
-        return 'No chosen themes :('
+def mixed_generation(complexity, *selected_ids):
+    selected_ids = list(selected_ids)
+    if len(selected_ids) == 0:
+        return "No topic id selected :("
     list_of_expressions = [arithmetic_generation, root_generation, power_generation, fractional_to_decimal_generation,
                            factorial_generation, logarithm_generation, linear_equation_generation,
                            quadratic_equation_generation, linear_inequality_generation, quadratic_inequality_generation]
-    chosen_list = [i for i in list_of_expressions if list_of_expressions.index(i) in chosen_ids]
+    chosen_list = [i for i in list_of_expressions if list_of_expressions.index(i) in selected_ids]
     random_expression = random.choice(chosen_list)
     return random_expression(complexity)
