@@ -9,15 +9,15 @@ class User(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.String, primary_key=True, unique=True, nullable=False)
     username = sqlalchemy.Column(sqlalchemy.String)
-    photo = sqlalchemy.Column(sqlalchemy.String)
-    rating = sqlalchemy.Column(sqlalchemy.Float)
+    photo = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    rating = sqlalchemy.Column(sqlalchemy.Float, default=0)
 
-    progress = orm.relationship(
-        "Progress",
+    user_progress = orm.relationship(
+        "UserProgress",
         backref="user"
     )
 
-    achievements = orm.relationship(
-        "Achievement",
+    user_achievements = orm.relationship(
+        "UserAchievement",
         backref="user"
     )

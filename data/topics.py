@@ -13,7 +13,7 @@ class Topic(SqlAlchemyBase):
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     generator_id = sqlalchemy.Column(sqlalchemy.Integer, default=0)
 
-    progress = orm.relationship(
-        "Progress",
+    user_progress = orm.relationship(
+        "UserProgress",
         backref="topic"
     )

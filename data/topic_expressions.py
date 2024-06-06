@@ -15,5 +15,5 @@ class TopicExpression(SqlAlchemyBase):
 
     topic = orm.relationship(
         "Topic",
-        backref="expressions"
+        backref="topic_expressions"
     )

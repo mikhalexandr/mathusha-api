@@ -3,9 +3,10 @@ import sqlalchemy
 from .db_session import SqlAlchemyBase
 
 
-class Progress(SqlAlchemyBase):
-    __tablename__ = 'progress'
+class UserProgress(SqlAlchemyBase):
+    __tablename__ = 'user_progress'
 
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     easy_solved_tasks = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     medium_solved_tasks = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     hard_solved_tasks = sqlalchemy.Column(sqlalchemy.Integer, default=0)
