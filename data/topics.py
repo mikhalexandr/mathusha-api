@@ -1,11 +1,10 @@
 import sqlalchemy
 from sqlalchemy import orm
-from sqlalchemy_serializer import SerializerMixin
 
 from .db_session import SqlAlchemyBase
 
 
-class Topic(SqlAlchemyBase, SerializerMixin):
+class Topic(SqlAlchemyBase):
     __tablename__ = 'topics'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)

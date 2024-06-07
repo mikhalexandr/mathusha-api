@@ -25,13 +25,12 @@ class TopicListResource(Resource):
         topics = session.query(Topic).all()
         if topics is None:
             abort(404, message="Topics not found")
-        for i in topics:
-            d = {
-                'id': i.id,
-                'name': i.name,
-                'image': send_file((io.BytesIO(i.image))) if i.image else None,
-            }
-            res.append(d)
+        for topic in topics:
+            res.append({
+                'id': topic.id,
+                'name': topic.name,
+                'image': send_file((io.BytesIO(topic.image))) if topic.image else None,
+            })
         session.commit()
         return jsonify(res), 200
 

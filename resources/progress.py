@@ -14,12 +14,11 @@ class ProgressListResource(Resource):
         user_progress = session.query(UserProgress).filter(UserProgress.user_id == g.user_id).all()
         res = []
         for i in user_progress:
-            d = {
+            res.append({
                 'topic_id': i.topic_id,
                 'easy_solved_tasks': i.easy_solved_tasks,
                 'medium_solved_tasks': i.medium_solved_tasks,
                 'hard_solved_tasks': i.hard_solved_tasks,
                 'all_solved_tasks': i.easy_solved_tasks + i.medium_solved_tasks + i.hard_solved_tasks
-            }
-            res.append(d)
+            })
         return jsonify(res), 200

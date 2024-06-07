@@ -17,11 +17,10 @@ class ProfileResource(Resource):
         users = list(session.query(User).all())
         rating = []
         for user in users:
-            d = {
+            rating.append({
                 'id': user.id,
                 'rating': user.rating,
-            }
-            rating.append(d)
+            })
         rating = sorted(rating, key=lambda x: x['rating'], reverse=True)
         user_index = [x for x in range(len(rating)) if rating[x]["id"] == g.user_id][0]
         return jsonify({

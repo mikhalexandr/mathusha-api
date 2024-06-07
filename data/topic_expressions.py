@@ -1,11 +1,10 @@
 import sqlalchemy
 from sqlalchemy import orm
-from sqlalchemy_serializer import SerializerMixin
 
 from .db_session import SqlAlchemyBase
 
 
-class TopicExpression(SqlAlchemyBase, SerializerMixin):
+class TopicExpression(SqlAlchemyBase):
     __tablename__ = 'topic_expressions'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)

@@ -1,10 +1,9 @@
 import sqlalchemy
-from sqlalchemy_serializer import SerializerMixin
 
 from .db_session import SqlAlchemyBase
 
 
-class UserProgress(SqlAlchemyBase, SerializerMixin):
+class UserProgress(SqlAlchemyBase):
     __tablename__ = 'user_progress'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
