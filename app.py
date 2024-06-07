@@ -2,7 +2,6 @@ from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
 # from flask_ngrok import run_with_ngrok
-from keycloak import KeycloakOpenID
 from dotenv import load_dotenv
 import os
 
