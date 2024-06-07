@@ -1,2 +1,2 @@
 from .auth_decorator import authenticate
-from .admin import keycloak_admin, keycloak_connection
+from .admin import keycloak_admin
