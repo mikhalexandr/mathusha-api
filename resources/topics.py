@@ -1,8 +1,8 @@
-from flask_restful import Resource, abort
 from flask import g, jsonify, request
+from flask_restful import Resource, abort
 
 from keycloak_integration import authenticate
-from misc import user_things_generation
+from misc import user_data_generation
 from data import db_session
 from data.users import User
 from data.topics import Topic
@@ -19,7 +19,7 @@ class TopicListResource(Resource):
                 id=g.user_id
             )
             session.add(user)
-            user_things_generation(session, g.user_id)
+            user_data_generation(session, g.user_id)
         res = []
         topics = session.query(Topic).all()
         if topics is None:
@@ -39,11 +39,11 @@ class TopicDescriptionResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        id_ = request.json['id']
+        topic_id = request.json['topic_id']
         session = db_session.create_session()
-        topic = session.query(Topic).filter(Topic.id == id_).first()
+        topic = session.query(Topic).filter(Topic.id == topic_id).first()
         if topic is None:
-            abort(404, message=f"Topic with id [{id_}] is not found")
+            abort(404, message=f"Topic with id [{topic_id}] is not found")
         return jsonify({
             'description': topic.description
         })

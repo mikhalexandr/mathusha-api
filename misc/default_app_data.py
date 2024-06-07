@@ -4,7 +4,7 @@ from data.user_progress import UserProgress
 from data.topics import Topic
 
 
-def create_base_things():
+def create_default_data():
     session = db_session.create_session()
     u1 = User(id='1', username='Alex')
     u2 = User(id='2', username='NeAlex')

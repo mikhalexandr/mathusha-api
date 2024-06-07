@@ -1,5 +1,5 @@
-from flask_restful import Resource, abort
 from flask import g, request, jsonify
+from flask_restful import Resource, abort
 import random
 
 from keycloak_integration import authenticate
@@ -16,21 +16,24 @@ class ExpressionGetResource(Resource):
     @authenticate
     def get():
         try:
-            id_ = request.json['id']
+            topic_id = request.json['topic_id']
             complexity = request.json['complexity']
+            tasks_for_mix = request.json['tasks_for_mix']
             session = db_session.create_session()
-            if id_ <= len(list_of_expressions):
-                return jsonify(list_of_expressions[id_ - 1](complexity))
-            elif id_ == len(list_of_expressions) + 1:
-                return jsonify(mixed_generation(complexity))
-            elif id_ == len(list_of_expressions) + 2:
+            if topic_id <= len(list_of_expressions):
+                return jsonify(list_of_expressions[topic_id - 1](complexity))
+            elif topic_id == len(list_of_expressions) + 1:
+                if tasks_for_mix == 0:
+                    abort(404, message=f"Tasks for mix [{tasks_for_mix}] are not found")
+                return jsonify(mixed_generation(complexity, tasks_for_mix))
+            elif topic_id == len(list_of_expressions) + 2:
                 return jsonify(yandex_gpt_setup())
             else:
-                topic = session.query(Topic).filter(Topic.id == id_).first()
+                topic = session.query(Topic).filter(Topic.id == topic_id).first()
                 if topic is None:
-                    abort(404, message=f"Topic with id [{id_}] is not found")
-                topic_expressions = list(session.query(TopicExpression).filter(TopicExpression.topic_id == id_,
-                                                                          TopicExpression.complexity == complexity).all())
+                    abort(404, message=f"Topic with id [{topic_id}] is not found")
+                topic_expressions = list(session.query(TopicExpression).filter(TopicExpression.topic_id == topic_id,
+                                                                        TopicExpression.complexity == complexity).all())
                 index = random.randint(0, len(topic_expressions) - 1)
                 return jsonify({
                     'problem': topic_expressions[index]['problem'],
@@ -42,13 +45,14 @@ class ExpressionGetResource(Resource):
 
 class ExpressionPostResource(Resource):
     @staticmethod
+    @authenticate
     def patch():
-        id_ = request.json['id']
+        topic_id = request.json['topic_id']
         complexity = request.json['complexity']
         session = db_session.create_session()
         user = session.query(User).filter(User.id == g.user_id).first()
         user_progress = session.query(UserProgress).filter(UserProgress.user_id == g.user_id,
-                                                           UserProgress.topic_id == id_).first()
+                                                           UserProgress.topic_id == topic_id).first()
         if complexity == 1:
             user_progress.easy_solved_tasks += 1
             user.rating += 1

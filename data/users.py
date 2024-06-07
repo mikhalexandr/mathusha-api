@@ -11,7 +11,7 @@ class User(SqlAlchemyBase, SerializerMixin):
     id = sqlalchemy.Column(sqlalchemy.String, primary_key=True, unique=True, nullable=False)
     username = sqlalchemy.Column(sqlalchemy.String, default='')
     photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    rating = sqlalchemy.Column(sqlalchemy.Float, default=0)
+    rating = sqlalchemy.Column(sqlalchemy.Integer, default=0)
 
     user_progress = orm.relationship(
         "UserProgress",
