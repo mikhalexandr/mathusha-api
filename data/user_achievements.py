@@ -1,9 +1,10 @@
 import sqlalchemy
+from sqlalchemy_serializer import SerializerMixin
 
 from .db_session import SqlAlchemyBase
 
 
-class UserAchievement(SqlAlchemyBase):
+class UserAchievement(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'user_achievements'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
