@@ -8,6 +8,6 @@ class Task(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     topic_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('topics.id'))
-    problem = sqlalchemy.Column(sqlalchemy.String)
-    solution = sqlalchemy.Column(sqlalchemy.String)
-    complexity = sqlalchemy.Column(sqlalchemy.Integer)
+    problem = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    solution = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    complexity = sqlalchemy.Column(sqlalchemy.Integer, default=1)

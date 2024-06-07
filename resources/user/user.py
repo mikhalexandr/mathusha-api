@@ -1,20 +1,22 @@
-from flask import g, jsonify, request, send_file
+from flask import g, jsonify, request, send_from_directory
 from flask_restful import Resource, abort
 from werkzeug.utils import secure_filename
-import io
+import os
 
 from keycloak_integration import authenticate
+from misc import allowed_file, allowed_file_size
 from data import db_session
 from data.users import User
 
 
-class ProfileResource(Resource):
+class UserResource(Resource):
     @staticmethod
     @authenticate
     def get():
+        # todo: add username from keycloak
         session = db_session.create_session()
         current_user = session.query(User).filter(User.id == g.user_id).first()
-        users = list(session.query(User).all())
+        users = session.query(User).all()
         rating = []
         for user in users:
             rating.append({
@@ -25,28 +27,29 @@ class ProfileResource(Resource):
         user_index = [x for x in range(len(rating)) if rating[x]["id"] == g.user_id][0]
         return jsonify({
             'username': current_user.username,
-            'photo': send_file((io.BytesIO(current_user.photo))) if current_user.photo else None,
             'rating': current_user.rating,
             'place_in_top': user_index + 1
-        }), 200
+        }), send_from_directory('assets/users', f'{current_user.photo}'), 200
 
 
-class ProfilePhotoResource(Resource):
+class UserPhotoResource(Resource):
     @staticmethod
     @authenticate
-    def patch():
+    def put():
         if 'file' not in request.files:
             abort(400, message="No file part")
         file = request.files['file']
         if file.filename == '':
             abort(400, message="No selected file")
-        filename = secure_filename(file.filename)
-        if not filename.lower().endswith(('.jpg', '.jpeg', '.png')):
-            abort(415, message="Invalid file type")
-        file_data = file.read()
+        filename = None
+        if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
+            filename = f'{g.user_id}.{secure_filename(file.filename).split(".")[1]}'
+            file.save(os.path.join('assets/users', filename))
+        else:
+            abort(400, message="File is incorrect")
         session = db_session.create_session()
         user = session.query(User).filter(User.id == g.user_id).first()
-        user.photo = file_data
+        user.photo = 'assets/users/' + filename
         session.commit()
         return jsonify({"message": "OK"}), 200
 
@@ -55,6 +58,7 @@ class ProfilePhotoResource(Resource):
     def delete():
         session = db_session.create_session()
         user = session.query(User).filter(User.id == g.user_id).first()
-        user.photo = None
+        os.remove(user.photo)
+        user.photo = 'assets/users/default.jpg'
         session.commit()
         return jsonify({"message": "OK"}), 200

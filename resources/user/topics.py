@@ -1,6 +1,5 @@
-from flask import g, jsonify, request, send_file
+from flask import g, jsonify, request, send_from_directory
 from flask_restful import Resource, abort
-import io
 
 from keycloak_integration import authenticate
 from misc import user_data_generation
@@ -29,10 +28,14 @@ class TopicListResource(Resource):
             res.append({
                 'id': topic.id,
                 'name': topic.name,
-                'image': send_file((io.BytesIO(topic.image))) if topic.image else None,
+                'photo': topic.photo,
             })
         session.commit()
-        return jsonify(res), 200
+        return (
+            jsonify(res),
+            [send_from_directory('assets/topics', f'{topic.photo}') for topic in topics],
+            200
+        )
 
 
 class TopicDescriptionResource(Resource):

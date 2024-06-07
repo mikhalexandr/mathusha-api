@@ -8,4 +8,4 @@ class UserAchievement(SqlAlchemyBase):
 
     user_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("users.id"), primary_key=True)
     achievement_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("achievements.id"), primary_key=True)
-    unlocked = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+    unlocked = sqlalchemy.Column(sqlalchemy.Integer, default=0)

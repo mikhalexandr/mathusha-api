@@ -1,1 +1,2 @@
-from .rating import RatingResource
+from admin import *
+from user import *

@@ -273,7 +273,7 @@ def linear_inequality_generation(complexity):
     }
 
 
-list_of_expressions = [
+list_of_generated_tasks = [
     addition_generation, subtraction_generation, multiplication_generation, division_generation,
     root_generation, power_generation, fractional_to_decimal_generation, factorial_generation,
     logarithm_generation, trigonometric_values_generation, linear_equation_generation,
@@ -282,10 +282,10 @@ list_of_expressions = [
 
 
 def mixed_generation(complexity, *selected_ids):
-    global list_of_expressions
+    global list_of_generated_tasks
     selected_ids = list(selected_ids)
     if len(selected_ids) == 0:
         return "No topic id selected :("
-    chosen_list = [i for i in list_of_expressions if list_of_expressions.index(i) in selected_ids]
+    chosen_list = [i for i in list_of_generated_tasks if list_of_generated_tasks.index(i) in selected_ids]
     random_expression = random.choice(chosen_list)
     return random_expression(complexity)

@@ -9,7 +9,7 @@ class User(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.String, primary_key=True, unique=True, nullable=False)
     username = sqlalchemy.Column(sqlalchemy.String, default='')
-    photo = sqlalchemy.Column(sqlalchemy.LargeBinary, default=None)
+    photo = sqlalchemy.Column(sqlalchemy.String, default='assets/default.jpg')
     rating = sqlalchemy.Column(sqlalchemy.Integer, default=0)
 
     topics = orm.relationship(

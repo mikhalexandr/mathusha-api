@@ -9,7 +9,7 @@ class Achievement(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    image = sqlalchemy.Column(sqlalchemy.LargeBinary, nullable=False)
+    photo = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
 
     users = orm.relationship(

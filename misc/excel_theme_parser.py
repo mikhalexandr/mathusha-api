@@ -2,7 +2,7 @@ import pandas as pd
 
 from data import db_session
 from data.topics import Topic
-from data.topic_expressions import TopicExpression
+from data.tasks import Task
 
 
 def excel_to_db(excel_file_path):
@@ -20,7 +20,7 @@ def excel_to_db(excel_file_path):
             problem = str(df.iloc[i, 0])
             solution = str(df.iloc[i, 1])
             complexity = int(df.iloc[i, 2])
-            expression = TopicExpression(
+            expression = Task(
                 topic_id=sheet_name,
                 problem=problem,
                 solution=solution,
