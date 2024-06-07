@@ -40,7 +40,7 @@ class ExpressionGetResource(Resource):
                     'solution': topic_expressions[index]['solution']
                 })
         except Exception as e:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': str(e)}), 404
 
 
 class ExpressionPostResource(Resource):
@@ -63,4 +63,4 @@ class ExpressionPostResource(Resource):
             user_progress.hard_solved_tasks += 1
             user.rating += 3
         session.commit()
-        return jsonify({"message": "OK"})
+        return jsonify({"message": "OK"}), 200

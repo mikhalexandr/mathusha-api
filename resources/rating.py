@@ -11,13 +11,12 @@ class RatingResource(Resource):
     @authenticate
     def get():
         session = db_session.create_session()
-        users = list(session.query(User).all())
+        users = session.query(User).all()
         rating = []
         for user in users:
             d = {
                 'id': user.id,
                 'username': user.username,
-                'photo': user.photo,
                 'rating': user.rating,
             }
             rating.append(d)
@@ -27,4 +26,4 @@ class RatingResource(Resource):
         return jsonify({
             'rating': rating,
             'user_info': user_info
-        })
+        }), 200

@@ -10,7 +10,8 @@ class Achievement(SqlAlchemyBase, SerializerMixin):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    description = sqlalchemy.Column(sqlalchemy.String)
+    image = sqlalchemy.Column(sqlalchemy.LargeBinary, nullable=False)
+    description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
 
     user_achievement = orm.relationship(
         "UserAchievement",

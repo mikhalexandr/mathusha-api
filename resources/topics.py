@@ -1,5 +1,6 @@
-from flask import g, jsonify, request
+from flask import g, jsonify, request, send_file
 from flask_restful import Resource, abort
+import io
 
 from keycloak_integration import authenticate
 from misc import user_data_generation
@@ -28,11 +29,11 @@ class TopicListResource(Resource):
             d = {
                 'id': i.id,
                 'name': i.name,
-                'image': i.image,
+                'image': send_file((io.BytesIO(i.image))) if i.image else None,
             }
             res.append(d)
         session.commit()
-        return jsonify(res)
+        return jsonify(res), 200
 
 
 class TopicDescriptionResource(Resource):
@@ -46,4 +47,4 @@ class TopicDescriptionResource(Resource):
             abort(404, message=f"Topic with id [{topic_id}] is not found")
         return jsonify({
             'description': topic.description
-        })
+        }), 200

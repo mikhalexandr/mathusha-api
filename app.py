@@ -18,7 +18,7 @@ CORS(app, supports_credentials=True)
 
 app.config.update({
     "SECRET_KEY": os.getenv("SECRET_KEY"),
-    "JSON_AS_ASCII": False,
+    "JSON_AS_ASCII": False
 })
 
 

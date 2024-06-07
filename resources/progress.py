@@ -22,4 +22,4 @@ class ProgressListResource(Resource):
                 'all_solved_tasks': i.easy_solved_tasks + i.medium_solved_tasks + i.hard_solved_tasks
             }
             res.append(d)
-        return jsonify(res)
+        return jsonify(res), 200
