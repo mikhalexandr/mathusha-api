@@ -12,7 +12,7 @@ class TopicExpression(SqlAlchemyBase, SerializerMixin):
     problem = sqlalchemy.Column(sqlalchemy.String)
     solution = sqlalchemy.Column(sqlalchemy.String)
     complexity = sqlalchemy.Column(sqlalchemy.Integer)
-    topic_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('topics.name'))
+    topic_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('topics.id'))
 
     topic = orm.relationship(
         "Topic",

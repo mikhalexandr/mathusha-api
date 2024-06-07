@@ -12,7 +12,6 @@ class Topic(SqlAlchemyBase, SerializerMixin):
     name = sqlalchemy.Column(sqlalchemy.String, unique=True, nullable=False)
     image = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    generator_id = sqlalchemy.Column(sqlalchemy.Integer, default=0)
 
     user_progress = orm.relationship(
         "UserProgress",
