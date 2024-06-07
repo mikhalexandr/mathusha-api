@@ -1,5 +1,5 @@
-from functools import wraps
 from flask import request, g
+from functools import wraps
 from keycloak import KeycloakOpenID
 import os
 
@@ -34,31 +34,3 @@ def authenticate(func):
         return func(*args, **kwargs)
 
     return wrapper
-
-
-# def authenticate(func):
-#     @wraps(func)
-#     def wrapper(*args, Ⓑkwargs):
-#         auth_header = request.headers.get('Authorization')
-#         if not auth_header:
-#             return jsonify({'message': 'Авторизация не предоставлена'}), 401
-#
-#         try:
-#             token = auth_header.split(' ')[1]
-#             payload = jwt.decode(token, KEYCLOAK_PUBLIC_KEY, algorithms=['RS256'])
-#             if payload['iss'] != f'{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}' or payload['aud'] != KEYCLOAK_CLIENT_ID:
-#                 return jsonify({'message': 'Недействительный токен'}), 401
-#
-#             # Сохранение ID пользователя в flask.g
-#             g.user_id = payload['sub']
-#
-#         except jwt.ExpiredSignatureError:
-#             return jsonify({'message': 'Токен истек'}), 401
-#         except jwt.JWTClaimsError:
-#             return jsonify({'message': 'Недействительный токен'}), 401
-#         except Exception:
-#             return jsonify({'message': 'Ошибка авторизации'}), 401
-#
-#         return func(*args, Ⓑkwargs)
-#
-#     return wrapper

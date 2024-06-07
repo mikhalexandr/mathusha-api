@@ -6,7 +6,7 @@ from data import db_session
 from data.users import User
 
 
-class AchievementsListResource(Resource):
+class AchievementsResource(Resource):
     @staticmethod
     @authenticate
     def get():

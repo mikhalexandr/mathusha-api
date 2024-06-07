@@ -1,6 +1,6 @@
 from user import UserResource, UserPhotoResource
-from topics import TopicListResource, TopicDescriptionResource
-from tasks import TaskGetResource, TaskPostResource
-from progress import ProgressListResource
-from achievements import AchievementsListResource
+from topics import TopicsResource, TopicDescriptionResource
+from tasks import TaskResource, SolvedTaskResource
+from progress import ProgressResource
+from achievements import AchievementsResource
 from rating import RatingResource

@@ -11,7 +11,7 @@ from data.topics import Topic
 from data.tasks import Task
 
 
-class TaskGetResource(Resource):
+class TaskResource(Resource):
     @staticmethod
     @authenticate
     def get():
@@ -43,7 +43,7 @@ class TaskGetResource(Resource):
             return jsonify({'error': str(e)}), 404
 
 
-class TaskPostResource(Resource):
+class SolvedTaskResource(Resource):
     @staticmethod
     @authenticate
     def patch():

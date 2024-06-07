@@ -8,7 +8,7 @@ from data.users import User
 from data.topics import Topic
 
 
-class TopicListResource(Resource):
+class TopicsResource(Resource):
     @staticmethod
     @authenticate
     def get():
