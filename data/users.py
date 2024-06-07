@@ -12,12 +12,14 @@ class User(SqlAlchemyBase):
     photo = sqlalchemy.Column(sqlalchemy.LargeBinary, default=None)
     rating = sqlalchemy.Column(sqlalchemy.Integer, default=0)
 
-    user_progress = orm.relationship(
-        "UserProgress",
-        backref="user"
+    topics = orm.relationship(
+        "Topic",
+        secondary="user_progress",
+        backref="users"
     )
 
-    user_achievements = orm.relationship(
-        "UserAchievement",
-        backref="user"
+    achievements = orm.relationship(
+        "Achievement",
+        secondary="user_achievements",
+        backref="users"
     )

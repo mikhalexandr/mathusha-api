@@ -12,7 +12,13 @@ class Topic(SqlAlchemyBase):
     image = sqlalchemy.Column(sqlalchemy.LargeBinary, nullable=False)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
 
-    user_progress = orm.relationship(
-        "UserProgress",
+    tasks = orm.relationship(
+        "Task",
         backref="topic"
+    )
+
+    users = orm.relationship(
+        "User",
+        secondary="user_progress",
+        backref="topics"
     )

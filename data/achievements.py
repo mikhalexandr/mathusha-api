@@ -12,7 +12,8 @@ class Achievement(SqlAlchemyBase):
     image = sqlalchemy.Column(sqlalchemy.LargeBinary, nullable=False)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
 
-    user_achievement = orm.relationship(
-        "UserAchievement",
-        backref="achievement"
+    users = orm.relationship(
+        "User",
+        secondary="user_achievements",
+        backref="achievements"
     )
