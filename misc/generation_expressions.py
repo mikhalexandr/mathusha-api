@@ -13,7 +13,10 @@ def addition_generation(complexity):
         problem, solution = mathgenerator.genById(id_, 49, 49)
     if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 99, 99)
-    return problem[1:-2], solution[1:-1]
+    return {
+        'problem': problem[1:-2],
+        'solution': solution[1:-1]
+    }
 
 
 def subtraction_generation(complexity):
@@ -25,7 +28,10 @@ def subtraction_generation(complexity):
         problem, solution = mathgenerator.genById(id_, 49, 49)
     if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 99, 99)
-    return problem[1:-2], solution[1:-1]
+    return {
+        'problem': problem[1:-2],
+        'solution': solution[1:-1]
+    }
 
 
 def multiplication_generation(complexity):
@@ -38,7 +44,10 @@ def multiplication_generation(complexity):
     if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 99)
     problem = re.sub(r'\\cdot', '*', problem)
-    return problem[1:-1], solution[1:-1]
+    return {
+        'problem': problem[1:-1],
+        'solution': solution[1:-1]
+    }
 
 
 def division_generation(complexity):
@@ -51,7 +60,10 @@ def division_generation(complexity):
     if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 99)
     problem = re.sub(r'\\div', '/', problem)
-    return problem[1:-2], solution[1:-1]
+    return {
+        'problem': problem[1:-2],
+        'solution': solution[1:-1]
+    }
 
 
 def root_generation(complexity):
@@ -67,7 +79,10 @@ def root_generation(complexity):
     if complexity == 3:
         for_four = random.randint(1, 5)
         problem, solution = f'∜{for_four ** 4}', f'{for_four}'
-    return problem, solution
+    return {
+        'problem': problem,
+        'solution': solution
+    }
 
 
 def power_generation(complexity):
@@ -110,7 +125,10 @@ def power_generation(complexity):
         return replacements[digit]
 
     problem = re.sub(r'\^(\d)', replace_superscript, problem)
-    return problem[1:-2], solution[1:-1]
+    return {
+        "problem": problem[1:-2],
+        "solution": solution[1:-1]
+    }
 
 
 def fractional_to_decimal_generation(complexity):
@@ -123,7 +141,10 @@ def fractional_to_decimal_generation(complexity):
     if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 99, 99)
     problem = re.sub(r'\\div', '/', problem)
-    return problem[1:-2], solution[1:-1]
+    return {
+        'problem': problem[1:-2],
+        'solution': solution[1:-1]
+    }
 
 
 def factorial_generation(complexity):
@@ -135,7 +156,10 @@ def factorial_generation(complexity):
         problem, solution = mathgenerator.genById(id_, 10)
     if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 14)
-    return problem[1:-2], solution[1:-1]
+    return {
+        'problem': problem[1:-2],
+        'solution': solution[1:-1]
+    }
 
 
 def logarithm_generation(complexity):
@@ -149,7 +173,10 @@ def logarithm_generation(complexity):
         problem, solution = mathgenerator.genById(id_, 7, 10)
     problem = re.sub(r'_{(\d+)}',
                      lambda match: f'{chr(0x2080 + int(unicodedata.numeric(match.group(1))))}', problem)
-    return problem[1:-2], solution[1:-1]
+    return {
+        'problem': problem[1:-2],
+        'solution': solution[1:-1]
+    }
 
 
 def trigonometric_values_generation(complexity):
@@ -168,7 +195,10 @@ def trigonometric_values_generation(complexity):
                       lambda match: {'\\frac12': '1/2', '\\frac1√3': '√3/3', '\\frac1√2': '√2/2', '\\frac√32': '√3/2'}
                       [match.group(0)],
                       solution)
-    return problem[2:-4], solution
+    return {
+        'problem': problem[2:-4],
+        'solution': solution
+    }
 
 
 def linear_equation_generation(complexity):
@@ -180,7 +210,10 @@ def linear_equation_generation(complexity):
         problem, solution = mathgenerator.genById(id_simple, 20)
     if complexity == 3:
         problem, solution = mathgenerator.genById(id_simple, 30)
-    return problem[1:-1], solution[1:-1]
+    return {
+        'problem': problem[1:-1],
+        'solution': solution[1:-1]
+    }
 
 
 def quadratic_equation_generation(complexity):
@@ -196,7 +229,10 @@ def quadratic_equation_generation(complexity):
     problem, solution = f'$x^2{p_to_pr}x{q_to_pr}=0$', f'$x1={x1}, x2={x2}$'
     problem, solution = re.sub(r'([+=-])', r' \1 ', problem), re.sub(r'(=)', r' \1 ', solution)
     problem = re.sub(r'\^2', '²', problem)
-    return problem[1:-1], solution[1:-1]
+    return {
+        'problem': problem[1:-1],
+        'solution': solution[1:-1]
+    }
 
 
 def linear_inequality_generation(complexity):
@@ -231,7 +267,10 @@ def linear_inequality_generation(complexity):
         solution = f"{variable} {operator} {constant // (coefficient1 - coefficient2)}"
     problem = re.sub(r"(>=)|(<=)", lambda match: "≥" if match.group(1) else "≤", problem)
     solution = re.sub(r"(>=)|(<=)", lambda match: "≥" if match.group(1) else "≤", solution)
-    return problem, solution
+    return {
+        'problem': problem,
+        'solution': solution
+    }
 
 
 list_of_expressions = [

@@ -18,7 +18,10 @@ def text_formation(text):
         else:
             formatted_parts.append(parts[i])
     formatted_parts[4] = re.sub(r'[^0-9]', '', formatted_parts[4])
-    return formatted_parts[2], formatted_parts[4]
+    return {
+        "problem": formatted_parts[2],
+        "solution": formatted_parts[4]
+    }
 
 
 def yandex_gpt_generation(url, headers, prompt):
