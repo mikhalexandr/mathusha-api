@@ -1,17 +1,24 @@
+from flask_restful import abort
 import pandas as pd
+import os
 
-from data import db_session
 from data.topics import Topic
 from data.tasks import Task
 
 
-def excel_to_db(excel_file_path, sheet_name):
-    session = db_session.create_session()
-    df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
+def excel_to_db(session, excel_file_path, sheet_name, description, filename):
+    if filename is None:
+        abort(404, message="File not found")
+    df = None
+    try:
+        df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
+    except Exception as e:
+        print("Error: ", e)
+        abort(404, message=f"Excel file [{filename}] is not found")
     theme = Topic(
         name=sheet_name,
-        photo=str(df.iloc[0, 3]),
-        description=str(df.iloc[1, 3])
+        description=description,
+        photo=filename
     )
     session.add(theme)
     for i in range(len(df)):
@@ -26,3 +33,4 @@ def excel_to_db(excel_file_path, sheet_name):
         )
         session.add(task)
     session.commit()
+    os.remove(excel_file_path)

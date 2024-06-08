@@ -54,7 +54,10 @@ class SolvedTaskResource(Resource):
         user = session.query(User).filter(User.id == g.user_id).first()
         user_progress = session.query(UserProgress).filter(UserProgress.user_id == g.user_id,
                                                            UserProgress.topic_id == topic_id).first()
-        if complexity == 1:
+        if topic_id == len(list_of_generated_tasks) + 2:
+            user_progress.medium_solved_tasks += 1
+            user.rating += 2
+        elif complexity == 1:
             user_progress.easy_solved_tasks += 1
             user.rating += 1
         elif complexity == 2:

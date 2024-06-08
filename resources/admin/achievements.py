@@ -31,3 +31,13 @@ class AdminAchievementResource(Resource):
     @admin_required
     def post():
         pass
+
+    @staticmethod
+    @admin_required
+    def patch():
+        pass
+
+    @staticmethod
+    @admin_required
+    def delete():
+        pass
