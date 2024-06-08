@@ -53,7 +53,7 @@ def main():
     if not os.path.isdir("db"):
         os.mkdir("db")
     db_session.global_init("db/Mathusha.db")
-    create_default_data()
+    # create_default_data()
     add_resources()
     app.run()
 

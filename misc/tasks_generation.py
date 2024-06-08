@@ -1,4 +1,4 @@
-from flask import abort
+from flask_restful import abort
 import mathgenerator
 import unicodedata
 import random
