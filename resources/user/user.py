@@ -7,6 +7,8 @@ from keycloak_integration import authenticate
 from misc import allowed_file, allowed_file_size
 from data import db_session
 from data.users import User
+from data.achievements import Achievement
+from data.user_achievements import UserAchievement
 
 
 class UserResource(Resource):
@@ -24,6 +26,15 @@ class UserResource(Resource):
             })
         rating = sorted(rating, key=lambda x: x['rating'], reverse=True)
         user_index = [x for x in range(len(rating)) if rating[x]["id"] == g.user_id][0]
+        if 0 < user_index + 1 < 4:
+            tmp = float(f'1.{user_index + 1}')
+            achievement = session.query(Achievement).filter(Achievement.type == tmp).first()
+            user_ach = session.query(UserAchievement).filter(UserAchievement.user_id == g.user_id,
+                                                             UserAchievement.achievement_id == achievement.id).first()
+            if not user_ach.unlocked:
+                user_ach.unlocked = True
+                achievement.taken += 1
+                session.commit()
         return jsonify({
             'username': current_user.name,
             'rating': current_user.rating,

@@ -5,7 +5,7 @@ from sqlalchemy import func
 import os
 
 from keycloak_integration import admin_required
-from misc import list_of_generated_tasks, allowed_file, allowed_file_size, allowed_excel_file, excel_to_db
+from misc import list_of_generated_tasks, allowed_file, allowed_file_size, allowed_excel_file, excel_to_db, translate
 from data import db_session
 from data.topics import Topic
 from data.users import User
@@ -39,7 +39,9 @@ class AdminTopicResource(Resource):
         if 'file' not in request.files or 'excel_file' not in request.files:
             abort(400, message="No file part")
         name = request.json['name']
+        eng_name = translate(name, 'en')
         description = request.json['description']
+        eng_description = translate(description, 'en')
         file = request.files['file']
         excel_file = request.files['excel_file']
         if file.filename == '' or excel_file.filename == '':
@@ -55,7 +57,8 @@ class AdminTopicResource(Resource):
         if allowed_excel_file(excel_file.filename):
             fn = f'adding_theme.{secure_filename(excel_file.filename).split(".")[1]}'
             excel_file.save(os.path.join('assets/topics', fn))
-            excel_to_db(session, f'assets/{fn}', name, description, filename)
+            excel_to_db(session, f'assets/{fn}', name, eng_name, description, eng_description, filename,
+                        count + 1)
         else:
             abort(400, message="Excel file is incorrect")
         users = session.query(User.id).all()
@@ -104,3 +107,4 @@ class AdminTopicResource(Resource):
         for prog in progress:
             session.delete(prog)
         session.commit()
+        return jsonify({"message": "OK"}), 200

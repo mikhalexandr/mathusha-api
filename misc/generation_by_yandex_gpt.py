@@ -1,7 +1,16 @@
+from deep_translator import GoogleTranslator
 import requests
 import re
 
 import consts
+
+
+def translate_for_gpt(text, lang):
+    try:
+        return GoogleTranslator(source='auto', target=lang).translate(text)
+    except Exception as e:
+        print("Translation error:", e)
+        return text
 
 
 def text_formation(text):
@@ -25,22 +34,27 @@ def text_formation(text):
     }
 
 
-def yandex_gpt_generation(url, headers, prompt):
+def yandex_gpt_generation(url, headers, prompt, lang):
     try:
         response = requests.post(url, headers=headers, json=prompt)
         result = response.json()['result']['alternatives'][0]['message']['text']
     except Exception as e:
         print("Restart generation because of Yandex GPT error:", e)
-        return yandex_gpt_generation(url, headers, prompt)
+        return yandex_gpt_generation(url, headers, prompt, lang)
 
     formatted_result = text_formation(result)
     if formatted_result is None:
         print('Restart generation because of request misunderstanding')
-        return yandex_gpt_generation(url, headers, prompt)
+        return yandex_gpt_generation(url, headers, prompt, lang)
+    try:
+        if lang != 'ru':
+            formatted_result['problem'] = translate_for_gpt(formatted_result['problem'], lang)
+    except Exception as e:
+        print("Translation error:", e)
     return formatted_result
 
 
-def yandex_gpt_setup():
+def yandex_gpt_setup(lang):
     prompt = {
         "modelUri": f"gpt://{consts.YANDEX_GPT_DIRECTORY_ID}/yandexgpt-lite",
         "completionOptions": {
@@ -73,4 +87,4 @@ def yandex_gpt_setup():
         "Authorization": f"Api-Key {consts.YANDEX_GPT_API_KEY}"
     }
 
-    return yandex_gpt_generation(url, headers, prompt)
+    return yandex_gpt_generation(url, headers, prompt, lang)

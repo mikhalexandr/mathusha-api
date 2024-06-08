@@ -11,6 +11,8 @@ class User(SqlAlchemyBase):
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     photo = sqlalchemy.Column(sqlalchemy.String, default='assets/default.jpg')
     rating = sqlalchemy.Column(sqlalchemy.Integer, default=0)
+    solved_tasks = sqlalchemy.Column(sqlalchemy.Integer, default=0)
+    ai_test = sqlalchemy.Column(sqlalchemy.Integer, default=0)
 
     topics = orm.relationship(
         "Topic",

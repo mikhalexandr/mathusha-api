@@ -1,12 +1,17 @@
 from flask_restful import abort
 import pandas as pd
+import random
 import os
 
 from data.topics import Topic
 from data.tasks import Task
 
 
-def excel_to_db(session, excel_file_path, sheet_name, description, filename):
+def generate_color():
+    return '#%02X%02X%02X' % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
+
+def excel_to_db(session, excel_file_path, sheet_name, eng_name, description, eng_description, filename, id_):
     if filename is None:
         abort(404, message="File not found")
     df = None
@@ -17,8 +22,11 @@ def excel_to_db(session, excel_file_path, sheet_name, description, filename):
         abort(404, message=f"Excel file [{filename}] is not found")
     theme = Topic(
         name=sheet_name,
+        eng_name=eng_name,
         description=description,
-        photo=filename
+        eng_description=eng_description,
+        photo=filename,
+        color=generate_color()
     )
     session.add(theme)
     for i in range(len(df)):
@@ -26,7 +34,7 @@ def excel_to_db(session, excel_file_path, sheet_name, description, filename):
         solution = str(df.iloc[i, 1])
         complexity = int(df.iloc[i, 2])
         task = Task(
-            topic_id=sheet_name,
+            topic_id=id_,
             problem=problem,
             solution=solution,
             complexity=complexity

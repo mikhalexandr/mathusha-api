@@ -22,3 +22,8 @@ KEYCLOAK_CLIENT_SECRET_KEY = os.getenv("KEYCLOAK_CLIENT_SECRET_KEY")
 # configurations
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
+
+
+# achievement triggers
+solved_tasks_amount = [500, 1000, 10000]
+rating_amount = [100, 500, 1000]

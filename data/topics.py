@@ -9,9 +9,12 @@ class Topic(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, unique=True, nullable=False)
+    eng_name = sqlalchemy.Column(sqlalchemy.String, unique=True, nullable=False)
     photo = sqlalchemy.Column(sqlalchemy.String, default='assets/topics/default.jpg')
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    eng_description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     color = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    solved_tasks = sqlalchemy.Column(sqlalchemy.Integer, default=0)
 
     tasks = orm.relationship(
         "Task",
