@@ -7,7 +7,6 @@ from misc import list_of_generated_tasks, mixed_generation, yandex_gpt_setup
 from data import db_session
 from data.users import User
 from data.user_progress import UserProgress
-from data.topics import Topic
 from data.tasks import Task
 
 
@@ -27,7 +26,10 @@ class TaskResource(Resource):
                     abort(404, message=f"Tasks for mix [{tasks_for_mix}] are not found")
                 return jsonify(mixed_generation(complexity, tasks_for_mix))
             elif topic_id == len(list_of_generated_tasks) + 2:
-                return jsonify(yandex_gpt_setup())
+                try:
+                    return jsonify(yandex_gpt_setup())
+                except Exception as e:
+                    abort(404, message=f"Yandex GPT is unavailable now because of error [{e}]")
             else:
                 topic_tasks = list(session.query(Task.problem, Task.solution).filter(Task.topic_id == topic_id,
                                                                     Task.complexity == complexity).all())

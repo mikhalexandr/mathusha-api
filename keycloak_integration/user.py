@@ -1,14 +1,14 @@
 from flask import request, g
 from functools import wraps
 from keycloak import KeycloakOpenID
-import os
+import consts
 
 
 keycloak_openid = KeycloakOpenID(
-    server_url=os.getenv("KEYCLOAK_SERVER_URL"),
-    client_id=os.getenv("KEYCLOAK_CLIENT_ID"),
-    realm_name=os.getenv("KEYCLOAK_USER_REALM_NAME"),
-    client_secret_key=os.getenv("KEYCLOAK_CLIENT_SECRET_KEY")
+    server_url=consts.KEYCLOAK_SERVER_URL,
+    client_id=consts.KEYCLOAK_CLIENT_ID,
+    realm_name=consts.KEYCLOAK_USER_REALM_NAME,
+    client_secret_key=consts.KEYCLOAK_CLIENT_SECRET_KEY
 )
 
 
@@ -30,6 +30,7 @@ def authenticate(func):
             return {"message": "Invalid token"}, 401
 
         g.user_id = token_info["sub"]
+        g.user_name = token_info["preferred_username"]
 
         return func(*args, **kwargs)
 

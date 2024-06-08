@@ -5,6 +5,7 @@ from data.topics import Topic
 from data.tasks import Task
 
 
+# todo: переделать под один sheet_name
 def excel_to_db(excel_file_path):
     session = db_session.create_session()
     excelFile = pd.ExcelFile(excel_file_path)

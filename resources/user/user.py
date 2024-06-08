@@ -3,7 +3,7 @@ from flask_restful import Resource, abort
 from werkzeug.utils import secure_filename
 import os
 
-from keycloak_integration import authenticate, keycloak_admin
+from keycloak_integration import authenticate
 from misc import allowed_file, allowed_file_size
 from data import db_session
 from data.users import User
@@ -25,7 +25,7 @@ class UserResource(Resource):
         rating = sorted(rating, key=lambda x: x['rating'], reverse=True)
         user_index = [x for x in range(len(rating)) if rating[x]["id"] == g.user_id][0]
         return jsonify({
-            'username': keycloak_admin.get_user(g.user_id)['username'],
+            'username': current_user.name,
             'rating': current_user.rating,
             'place_in_top': user_index + 1
         }), send_from_directory('assets/users', f'{current_user.photo}'), 200

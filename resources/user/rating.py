@@ -1,7 +1,7 @@
 from flask import g, jsonify, send_from_directory
 from flask_restful import Resource
 
-from keycloak_integration import authenticate, keycloak_admin
+from keycloak_integration import authenticate
 from data import db_session
 from data.users import User
 
@@ -16,7 +16,7 @@ class RatingResource(Resource):
         for user in users:
             rating.append({
                 'id': user.id,
-                'username': keycloak_admin.get_user(user.id)['username'],
+                'username': user.name,
                 'rating': user.rating,
             })
         rating = sorted(rating, key=lambda x: x['rating'], reverse=True)

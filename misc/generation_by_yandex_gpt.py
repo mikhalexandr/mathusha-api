@@ -1,6 +1,7 @@
 import requests
 import re
-import os
+
+import consts
 
 
 def text_formation(text):
@@ -41,7 +42,7 @@ def yandex_gpt_generation(url, headers, prompt):
 
 def yandex_gpt_setup():
     prompt = {
-        "modelUri": f"gpt://{os.getenv('YANDEX_GPT_DIRECTORY_ID')}/yandexgpt-lite",
+        "modelUri": f"gpt://{consts.YANDEX_GPT_DIRECTORY_ID}/yandexgpt-lite",
         "completionOptions": {
             "stream": False,
             "temperature": 0.6,
@@ -69,7 +70,7 @@ def yandex_gpt_setup():
     url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Api-Key {os.getenv('YANDEX_GPT_API_KEY')}"
+        "Authorization": f"Api-Key {consts.YANDEX_GPT_API_KEY}"
     }
 
     return yandex_gpt_generation(url, headers, prompt)

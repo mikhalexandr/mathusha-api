@@ -16,7 +16,8 @@ class TopicsResource(Resource):
         user = session.query(User).filter(User.id == g.user_id).first()
         if not user:
             user = User(
-                id=g.user_id
+                id=g.user_id,
+                name=g.user_name
             )
             session.add(user)
             user_data_generation(session, g.user_id)
