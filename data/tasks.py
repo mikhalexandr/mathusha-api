@@ -10,4 +10,4 @@ class Task(SqlAlchemyBase):
     topic_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('topics.id'))
     problem = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     solution = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    complexity = sqlalchemy.Column(sqlalchemy.Integer, default=1)
+    complexity = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)

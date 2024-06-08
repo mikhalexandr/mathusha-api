@@ -41,6 +41,7 @@ def add_resources():
     api.add_resource(UserPhotoResource, '/api/user/photo')
     api.add_resource(TopicsResource, '/api/user/topics')
     api.add_resource(TopicDescriptionResource, '/api/user/topic/description')
+    api.add_resource(TopicsForMixResource, '/api/user/topics_for_mix')
     api.add_resource(TaskResource, '/api/user/task')
     api.add_resource(SolvedTaskResource, '/api/user/solved_task')
     api.add_resource(AchievementsResource, '/api/user/achievements')

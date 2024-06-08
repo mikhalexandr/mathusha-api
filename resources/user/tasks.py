@@ -29,11 +29,10 @@ class TaskResource(Resource):
             elif topic_id == len(list_of_generated_tasks) + 2:
                 return jsonify(yandex_gpt_setup())
             else:
-                topic = session.query(Topic).filter(Topic.id == topic_id).first()
-                if topic is None:
-                    abort(404, message=f"Topic with id [{topic_id}] is not found")
                 topic_tasks = list(session.query(Task.problem, Task.solution).filter(Task.topic_id == topic_id,
                                                                     Task.complexity == complexity).all())
+                if topic_tasks is None:
+                    abort(404, message=f"Tasks with topic_id [{topic_id}] and complexity [{complexity}] are not found")
                 index = random.randint(0, len(topic_tasks) - 1)
                 return jsonify({
                     'problem': topic_tasks[index][0],

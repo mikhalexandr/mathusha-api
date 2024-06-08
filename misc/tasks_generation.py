@@ -1,7 +1,12 @@
+from flask import abort
 import mathgenerator
 import unicodedata
 import random
 import re
+
+from data import db_session
+from data.tasks import Task
+from data.topics import Topic
 
 
 def addition_generation(complexity):
@@ -286,6 +291,27 @@ def mixed_generation(complexity, *selected_ids):
     selected_ids = list(selected_ids)
     if len(selected_ids) == 0:
         return "No topic id selected :("
-    chosen_list = [i for i in list_of_generated_tasks if list_of_generated_tasks.index(i) in selected_ids]
+    chosen_list = []
+    for task in range(1, len(list_of_generated_tasks) + 1):
+        if task in selected_ids:
+            chosen_list.append(list_of_generated_tasks[task - 1])
+            selected_ids.remove(task)
     random_expression = random.choice(chosen_list)
-    return random_expression(complexity)
+
+    added_task = None
+    if len(selected_ids) > 0:
+        session = db_session.create_session()
+        topic_tasks = list(session.query(Task.problem, Task.solution).filter(Task.topic_id.in_(selected_ids),
+                                                                             Task.complexity == complexity).all())
+        index = random.randint(0, len(topic_tasks) - 1)
+        added_task = {
+            'problem': topic_tasks[index][0],
+            'solution': topic_tasks[index][1]
+        }
+
+    if added_task is not None:
+        tmp = random.randint(0, 1)
+        if tmp == 0:
+            return random_expression(complexity)
+        else:
+            return added_task

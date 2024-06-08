@@ -2,7 +2,7 @@ from flask import g, jsonify, request, send_from_directory
 from flask_restful import Resource, abort
 
 from keycloak_integration import authenticate
-from misc import user_data_generation
+from misc import user_data_generation, list_of_generated_tasks
 from data import db_session
 from data.users import User
 from data.topics import Topic
@@ -50,3 +50,19 @@ class TopicDescriptionResource(Resource):
         return jsonify({
             'description': topic.description
         }), 200
+
+
+class TopicsForMixResource(Resource):
+    @staticmethod
+    @authenticate
+    def get():
+        session = db_session.create_session()
+        topics = session.query(Topic).all()
+        res = []
+        for topic in topics:
+            if topic.id != len(list_of_generated_tasks) + 1 and topic.id != len(list_of_generated_tasks) + 2:
+                res.append({
+                    'id': topic.id,
+                    'name': topic.name,
+                })
+        return jsonify(res), 200
