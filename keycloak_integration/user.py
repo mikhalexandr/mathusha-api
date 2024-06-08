@@ -7,8 +7,8 @@ import os
 keycloak_openid = KeycloakOpenID(
     server_url=os.getenv("KEYCLOAK_SERVER_URL"),
     client_id=os.getenv("KEYCLOAK_CLIENT_ID"),
-    realm_name=os.getenv("USER_REALM_NAME"),
-    client_secret_key=os.getenv("CLIENT_SECRET_KEY")
+    realm_name=os.getenv("KEYCLOAK_USER_REALM_NAME"),
+    client_secret_key=os.getenv("KEYCLOAK_CLIENT_SECRET_KEY")
 )
 
 

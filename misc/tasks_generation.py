@@ -6,7 +6,6 @@ import re
 
 from data import db_session
 from data.tasks import Task
-from data.topics import Topic
 
 
 def addition_generation(complexity):
@@ -303,6 +302,8 @@ def mixed_generation(complexity, *selected_ids):
         session = db_session.create_session()
         topic_tasks = list(session.query(Task.problem, Task.solution).filter(Task.topic_id.in_(selected_ids),
                                                                              Task.complexity == complexity).all())
+        if len(topic_tasks) == 0:
+            abort(404, message=f"Tasks with topic_id [{selected_ids}] and complexity [{complexity}] are not found")
         index = random.randint(0, len(topic_tasks) - 1)
         added_task = {
             'problem': topic_tasks[index][0],
