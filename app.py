@@ -47,6 +47,12 @@ def add_resources():
     api.add_resource(ProgressResource, '/api/user/progress')
     api.add_resource(RatingResource, '/api/user/rating')
 
+    api.add_resource(AdminTopicsResource, '/api/admin/topics')
+    api.add_resource(AdminTopicResource, '/api/admin/topic')
+    api.add_resource(AdminAchievementsResource, '/api/admin/achievements')
+    api.add_resource(AdminAchievementResource, '/api/admin/achievement')
+    api.add_resource(AdminStatisticsResource, '/api/admin/statistics')
+
 
 def main():
     if not os.path.isdir("db"):
