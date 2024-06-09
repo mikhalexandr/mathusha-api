@@ -10,4 +10,4 @@ WORKDIR /app
 
 EXPOSE 8082
 
-CMD ["gunicorn","--config", "gunicorn_config.py", "app:main()"]
+CMD ["gunicorn","--config", "gunicorn_config.py", "app:prod()"]
