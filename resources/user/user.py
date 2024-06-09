@@ -15,9 +15,8 @@ class UserResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        user_id = request.json['id']
         session = db_session.create_session()
-        current_user = session.query(User).filter(User.id == user_id).first()
+        current_user = session.query(User).filter(User.id == g.user_id).first()
         users = session.query(User).all()
         rating = []
         for user in users:
@@ -26,11 +25,11 @@ class UserResource(Resource):
                 'rating': user.rating,
             })
         rating = sorted(rating, key=lambda x: x['rating'], reverse=True)
-        user_index = [x for x in range(len(rating)) if rating[x]["id"] == user_id][0]
+        user_index = [x for x in range(len(rating)) if rating[x]["id"] == g.user_id][0]
         if 0 < user_index + 1 < 4:
             tmp = float(f'1.{user_index + 1}')
             achievement = session.query(Achievement).filter(Achievement.type == tmp).first()
-            user_ach = session.query(UserAchievement).filter(UserAchievement.user_id == user_id,
+            user_ach = session.query(UserAchievement).filter(UserAchievement.user_id == g.user_id,
                                                              UserAchievement.achievement_id == achievement.id).first()
             if not user_ach.unlocked:
                 user_ach.unlocked = True
