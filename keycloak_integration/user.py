@@ -4,17 +4,17 @@ from keycloak import KeycloakOpenID
 import consts
 
 
-keycloak_openid = KeycloakOpenID(
-    server_url=consts.KEYCLOAK_SERVER_URL,
-    client_id=consts.KEYCLOAK_CLIENT_ID,
-    realm_name=consts.KEYCLOAK_USER_REALM_NAME,
-    client_secret_key=consts.KEYCLOAK_CLIENT_SECRET_KEY
-)
-
-
 def authenticate(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
+        keycloak_openid = KeycloakOpenID(
+            server_url=consts.KEYCLOAK_SERVER_URL,
+            client_id=consts.KEYCLOAK_CLIENT_ID,
+            realm_name=consts.KEYCLOAK_USER_REALM_NAME,
+            client_secret_key=consts.KEYCLOAK_CLIENT_SECRET_KEY
+        )
+        print(consts.KEYCLOAK_SERVER_URL, consts.KEYCLOAK_CLIENT_ID, consts.KEYCLOAK_USER_REALM_NAME,
+              consts.KEYCLOAK_CLIENT_SECRET_KEY)
         auth_header = request.headers.get("Authorization")
         if not auth_header:
             return {"message": "Authentication required"}, 401
