@@ -9,7 +9,7 @@ class User(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.String, primary_key=True, unique=True, nullable=False)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    photo = sqlalchemy.Column(sqlalchemy.String, default='assets/default.jpg')
+    photo = sqlalchemy.Column(sqlalchemy.String, default='assets/users/default.jpg')
     rating = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     solved_tasks = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     ai_test = sqlalchemy.Column(sqlalchemy.Integer, default=0)
