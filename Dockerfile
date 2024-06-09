@@ -8,6 +8,6 @@ RUN pip install -r requirements.txt
 COPY . /app
 WORKDIR /app
 
-EXPOSE 8080
+EXPOSE 8082
 
 CMD ["gunicorn","--config", "gunicorn_config.py", "app:app"]
