@@ -1,4 +1,4 @@
-from flask import Flask, g
+from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
 # from flask_ngrok import run_with_ngrok
@@ -26,12 +26,6 @@ app.config.update({
 @app.route("/")
 def check_work():
     return "OK"
-
-
-# @app.teardown_request
-# def cleanup_request():
-#     g.pop('user_id', None)
-#     g.pop('user_name', None)
 
 
 if not os.path.isdir("db"):
