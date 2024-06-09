@@ -16,7 +16,7 @@ class AchievementsResource(Resource):
         res = []
         for achievement in user.achievements:
             res.append({
-                'achievement_id': achievement.id,
+                'id': achievement.id,
                 'name': achievement.name if lang == 'ru' else achievement.eng_name,
                 'description': achievement.description if lang == 'ru' else achievement.eng_description,
                 'photo': achievement.photo,

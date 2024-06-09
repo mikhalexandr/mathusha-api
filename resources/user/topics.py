@@ -44,7 +44,7 @@ class TopicDescriptionResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        topic_id = request.json['topic_id']
+        topic_id = request.json['id']
         lang = request.json['lang']
         session = db_session.create_session()
         topic = session.query(Topic).filter(Topic.id == topic_id).first()

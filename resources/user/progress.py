@@ -17,13 +17,12 @@ class ProgressResource(Resource):
         for topic_progress in user.topics:
             res.append({
                 'id': topic_progress.id,
-                'topic_name': topic_progress.name if lang == 'ru' else topic_progress.eng_name,
-                'topic_color': topic_progress.color,
+                'name': topic_progress.name if lang == 'ru' else topic_progress.eng_name,
+                'color': topic_progress.color,
                 'easy_solved_tasks': topic_progress.easy_solved_tasks,
                 'medium_solved_tasks': topic_progress.medium_solved_tasks,
                 'hard_solved_tasks': topic_progress.hard_solved_tasks,
                 'solved_tasks': (topic_progress.easy_solved_tasks + topic_progress.medium_solved_tasks
-                                 + topic_progress.hard_solved_tasks),
-                'color': topic_progress.color
+                                 + topic_progress.hard_solved_tasks)
             })
         return jsonify(res), 200

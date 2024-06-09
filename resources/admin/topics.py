@@ -74,7 +74,7 @@ class AdminTopicResource(Resource):
     @staticmethod
     @admin_required
     def patch():
-        topic_id = request.json['topic_id']
+        topic_id = request.json['id']
         name = request.json['name']
         description = request.json['description']
         file = request.files['file']
@@ -95,7 +95,7 @@ class AdminTopicResource(Resource):
     @staticmethod
     @admin_required
     def delete():
-        topic_id = request.json['topic_id']
+        topic_id = request.json['id']
         if topic_id < len(list_of_generated_tasks) + 2:
             abort(400, message=f"Topic with id [{topic_id}] can't be deleted")
         session = db_session.create_session()

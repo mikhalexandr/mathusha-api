@@ -33,7 +33,7 @@ class AdminAchievementResource(Resource):
     @staticmethod
     @admin_required
     def patch():
-        achievement_id = request.json['achievement_id']
+        achievement_id = request.json['id']
         name = request.json['name']
         eng_name = translate(name, 'en')
         description = request.json['description']
@@ -58,7 +58,7 @@ class AdminAchievementResource(Resource):
     @staticmethod
     @admin_required
     def delete():
-        achievement_id = request.json['achievement_id']
+        achievement_id = request.json['id']
         session = db_session.create_session()
         achievement = session.query(Achievement).filter(Achievement.id == achievement_id).first()
         if achievement is None:
