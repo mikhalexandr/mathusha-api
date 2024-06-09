@@ -23,6 +23,7 @@ def authenticate(func):
 
         try:
             token_info = keycloak_openid.introspect(token)
+            print(token_info)
             if not token_info.get("active"):
                 print("Invalid token active")
                 return {"message": "Invalid token"}, 401
