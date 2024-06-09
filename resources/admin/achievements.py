@@ -1,4 +1,4 @@
-from flask import jsonify, request, send_from_directory
+from flask import request, send_from_directory
 from flask_restful import Resource, abort
 import os
 
@@ -53,7 +53,7 @@ class AdminAchievementResource(Resource):
             os.remove(os.path.join('assets/achievements', achievement.photo))
             file.save(os.path.join('assets/achievements', achievement.photo))
         session.commit()
-        return jsonify({"message": "OK"}), 200
+        return {"message": "OK"}, 200
 
     @staticmethod
     @admin_required
@@ -68,4 +68,4 @@ class AdminAchievementResource(Resource):
         for ach in achievements:
             session.delete(ach)
         session.commit()
-        return jsonify({"message": "OK"}), 200
+        return {"message": "OK"}, 200

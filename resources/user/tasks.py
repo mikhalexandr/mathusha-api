@@ -1,4 +1,4 @@
-from flask import g, request, jsonify
+from flask import g, request
 from flask_restful import Resource, abort
 import random
 
@@ -25,14 +25,14 @@ class TaskResource(Resource):
             lang = request.json['lang']
             session = db_session.create_session()
             if topic_id <= len(list_of_generated_tasks):
-                return jsonify(list_of_generated_tasks[topic_id - 1](complexity)), 200
+                return list_of_generated_tasks[topic_id - 1](complexity), 200
             elif topic_id == len(list_of_generated_tasks) + 1:
                 if tasks_for_mix == 0:
                     abort(404, message=f"Tasks for mix [{tasks_for_mix}] are not found")
-                return jsonify(mixed_generation(complexity, tasks_for_mix))
+                return mixed_generation(complexity, tasks_for_mix)
             elif topic_id == len(list_of_generated_tasks) + 2:
                 try:
-                    return jsonify(yandex_gpt_setup(lang)), 200
+                    return yandex_gpt_setup(lang), 200
                 except Exception as e:
                     abort(404, message=f"Yandex GPT is unavailable now because of error [{e}]")
             else:
@@ -41,12 +41,12 @@ class TaskResource(Resource):
                 if topic_tasks is None:
                     abort(404, message=f"Tasks with topic_id [{topic_id}] and complexity [{complexity}] are not found")
                 index = random.randint(0, len(topic_tasks) - 1)
-                return jsonify({
+                return {
                     'problem': topic_tasks[index][0],
                     'solution': topic_tasks[index][1]
-                }), 200
+                }, 200
         except Exception as e:
-            return jsonify({'error': str(e)}), 404
+            return {'error': str(e)}, 404
 
 
 class SolvedTaskResource(Resource):
@@ -83,11 +83,11 @@ class SolvedTaskResource(Resource):
             tmp = float(f'2.{str(consts.solved_tasks_amount.index(user.solved_tasks) + 1)}')
             achievement = session.query(Achievement).filter(Achievement.type == tmp).all()
             user_achievement = session.query(UserAchievement).filter(UserAchievement.user_id == g.user_id,
-                                                                     UserAchievement.achievement_id == achievement.id).first()
+                                                            UserAchievement.achievement_id == achievement.id).first()
             if not user_achievement.unlocked:
                 user_achievement.unlocked = True
                 achievement.taken += 1
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
         topic.solved_tasks += 1
         session.commit()
-        return jsonify({"message": "OK"}), 200
+        return {"message": "OK"}, 200

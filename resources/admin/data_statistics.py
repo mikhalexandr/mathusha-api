@@ -1,4 +1,3 @@
-from flask import jsonify
 from flask_restful import Resource
 
 from keycloak_integration import admin_required
@@ -44,8 +43,8 @@ class AdminStatisticsResource(Resource):
             })
         achievement_for_statistic = sorted(achievement_for_statistic, key=lambda x: x['solved_tasks'], reverse=True)
 
-        return jsonify({
+        return {
             'topics': topic_for_statistic,
             'users': user_for_statistic,
             'achievements': achievement_for_statistic
-        }), 200
+        }, 200

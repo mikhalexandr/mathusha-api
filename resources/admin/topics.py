@@ -1,4 +1,4 @@
-from flask import jsonify, request, send_from_directory
+from flask import request, send_from_directory
 from flask_restful import Resource, abort
 from werkzeug.utils import secure_filename
 from sqlalchemy import func
@@ -69,7 +69,7 @@ class AdminTopicResource(Resource):
             )
             session.add(user_progress)
         session.commit()
-        return jsonify({"message": "OK"}), 200
+        return {"message": "OK"}, 200
 
     @staticmethod
     @admin_required
@@ -90,7 +90,7 @@ class AdminTopicResource(Resource):
             os.remove(os.path.join('assets/topics', topic.photo))
             file.save(os.path.join('assets/topics', topic.photo))
         session.commit()
-        return jsonify({"message": "OK"}), 200
+        return {"message": "OK"}, 200
 
     @staticmethod
     @admin_required
@@ -107,4 +107,4 @@ class AdminTopicResource(Resource):
         for prog in progress:
             session.delete(prog)
         session.commit()
-        return jsonify({"message": "OK"}), 200
+        return {"message": "OK"}, 200

@@ -1,4 +1,4 @@
-from flask import g, jsonify, request, send_from_directory
+from flask import g, request, send_from_directory
 from flask_restful import Resource, abort
 from werkzeug.utils import secure_filename
 import os
@@ -35,11 +35,11 @@ class UserResource(Resource):
                 user_ach.unlocked = True
                 achievement.taken += 1
                 session.commit()
-        return jsonify({
+        return {
             'username': current_user.name,
             'rating': current_user.rating,
             'place_in_top': user_index + 1
-        }), send_from_directory('assets/users', f'{current_user.photo}'), 200
+        }, send_from_directory('assets/users', f'{current_user.photo}'), 200
 
 
 class UserPhotoResource(Resource):
@@ -61,7 +61,7 @@ class UserPhotoResource(Resource):
         user = session.query(User).filter(User.id == g.user_id).first()
         user.photo = 'assets/users/' + filename
         session.commit()
-        return jsonify({"message": "OK"}), 200
+        return {"message": "OK"}, 200
 
     @staticmethod
     @authenticate
@@ -71,4 +71,4 @@ class UserPhotoResource(Resource):
         os.remove(user.photo)
         user.photo = 'assets/users/default.jpg'
         session.commit()
-        return jsonify({"message": "OK"}), 200
+        return {"message": "OK"}, 200
