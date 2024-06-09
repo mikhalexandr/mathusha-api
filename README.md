@@ -108,4 +108,4 @@ KEYCLOAK_CLIENT_SECRET_KEY=your_keycloak_client_secret_key
     + returns topics information (body: list[id -> int, name -> str, color -> str, easy_solved_tasks -> int, medium_solved_tasks -> int, hard_solved_tasks -> int, solved_tasks -> int])
 * **Rating Requests**
   - GET "/api/user/rating"
-   + returns sorted user list for rating (body: rating -> list[id -> int, username -> str, rating -> int], user_info -> tuple[list[id -> int, username -> str, rating -> int], place_in_top -> int], leaders -> list[id -> int] + list of files)
+    + returns sorted user list for rating (body: rating -> list[id -> int, username -> str, rating -> int], user_info -> tuple[list[id -> int, username -> str, rating -> int], place_in_top -> int], leaders -> list[id -> int] + list of files)
