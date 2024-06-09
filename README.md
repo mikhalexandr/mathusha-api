@@ -80,3 +80,32 @@ KEYCLOAK_CLIENT_SECRET_KEY=your_keycloak_client_secret_key
     + updates topic
   - DELETE "/api/admin/topic" (body: id -> int)
     + delete topic
+#### User
+* **User profile Requests**
+  - GET "/api/user"
+    + returns user profile information (body: username -> str, rating -> int, place_in_top -> int + file)
+  - PUT "/api/user/photo" (body: file)
+    + updates user photo
+  - DELETE "/api/user/photo"
+    + deletes user photo
+* **Topics Requests**
+  - GET "/api/user/topics" (body: lang -> str)
+    + returns list of topics (body: list[id -> int, name -> str, photo -> str] + list of files)
+  - GET "/api/user/topic_description" (body: id -> int, lang -> str)
+    + returns topic description (body: description -> str)
+  - GET "/api/user/topics_for_mix" (body: lang -> str)
+    + returns list of topics for mix (list[id -> int, name -> str])
+* **Tasks Requests**
+  - GET "/api/user/task" (body: id -> int, complexity -> int, tasks_for_mix -> list, lang -> str)
+    + returns topic task (body: problem -> str, solution -> str)
+  - PATCH "/api/user/solved_task" (body: id -> int, complexity -> int)
+    + updates user and topic ratings
+* **Achievements Requests**
+  - GET "/api/user/achievements" (body: lang -> str)
+    + returns list of achievements (body: list[id -> int, name -> str, deccription -> str, photo -> str, unlocked -> int] + list of files)
+* **Progress Requests**
+  - GET "/api/user/progress" (body: lang -> str)
+    + returns topics information (body: list[id -> int, name -> str, color -> str, easy_solved_tasks -> int, medium_solved_tasks -> int, hard_solved_tasks -> int, solved_tasks -> int])
+* **Rating Requests**
+  - GET "/api/user/rating"
+   + returns sorted user list for rating (body: rating -> list[id -> int, username -> str, rating -> int], user_info -> tuple[list[id -> int, username -> str, rating -> int], place_in_top -> int], leaders -> list[id -> int] + list of files)
