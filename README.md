@@ -60,7 +60,7 @@ KEYCLOAK_CLIENT_SECRET_KEY=your_keycloak_client_secret_key
   - time - amount of time spent by the user on completion (in seconds) -> int (default=0)
  
 ### 📬 Requests
-#### Admin
+#### 👨‍💼 Admin
 * **Achievements Requests**
   - GET "/api/admin/achievements" 
     + returns list of achievements (body: list[id -> int, name -> str, decription -> str] + list of files)
@@ -80,7 +80,7 @@ KEYCLOAK_CLIENT_SECRET_KEY=your_keycloak_client_secret_key
     + updates topic
   - DELETE "/api/admin/topic" (body: id -> int)
     + delete topic
-#### User
+#### 🙍‍♂️ User
 * **User profile Requests**
   - GET "/api/user"
     + returns user profile information (body: username -> str, rating -> int, place_in_top -> int + file)
