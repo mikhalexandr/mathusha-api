@@ -19,7 +19,7 @@ def create_default_data():
     session.add(t3)
 
     a1 = Achievement(name='First achievement', eng_name='First achievement', description='First achievement',
-                     eng_description='First achievement', type=1)
+                     eng_description='First achievement', type=1.1)
     a2 = Achievement(name='Second achievement', eng_name='Second achievement', description='Second achievement',
                      eng_description='Second achievement', type=2)
     a3 = Achievement(name='Third achievement', eng_name='Third achievement', description='Third achievement',

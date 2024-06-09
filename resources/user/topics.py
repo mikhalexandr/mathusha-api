@@ -1,4 +1,4 @@
-from flask import g, jsonify, request, send_from_directory
+from flask import g, request, send_from_directory
 from flask_restful import Resource, abort
 
 from keycloak_integration import authenticate
@@ -34,7 +34,7 @@ class TopicsResource(Resource):
             })
         session.commit()
         return (
-            jsonify(res),
+            res,
             [send_from_directory('assets/topics', f'{topic.photo}') for topic in topics],
             200
         )
@@ -50,9 +50,9 @@ class TopicDescriptionResource(Resource):
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
         if topic is None:
             abort(404, message=f"Topic with id [{topic_id}] is not found")
-        return jsonify({
+        return {
             'description': topic.description if lang == 'ru' else topic.eng_description
-        }), 200
+        }, 200
 
 
 class TopicsForMixResource(Resource):
@@ -69,4 +69,4 @@ class TopicsForMixResource(Resource):
                     'id': topic.id,
                     'name': topic.name if lang == 'ru' else topic.eng_name,
                 })
-        return jsonify(res), 200
+        return res, 200

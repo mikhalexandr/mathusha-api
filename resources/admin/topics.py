@@ -27,7 +27,7 @@ class AdminTopicsResource(Resource):
                 'name': topic.name,
                 'description': topic.description
             })
-        return (jsonify(res),
+        return (res,
                 [send_from_directory('assets/topics', f'{topic.photo}') for topic in topics],
                 200)
 

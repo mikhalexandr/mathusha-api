@@ -28,10 +28,10 @@ def check_work():
     return "OK"
 
 
-@app.teardown_request
-def cleanup_request():
-    g.pop('user_id', None)
-    g.pop('user_name', None)
+# @app.teardown_request
+# def cleanup_request():
+#     g.pop('user_id', None)
+#     g.pop('user_name', None)
 
 
 def add_resources():

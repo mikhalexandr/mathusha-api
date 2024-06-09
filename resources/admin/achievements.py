@@ -24,7 +24,7 @@ class AdminAchievementsResource(Resource):
                 'name': ach.name,
                 'description': ach.description
             })
-        return (jsonify(res),
+        return (res,
                 [send_from_directory('assets/achievements', f'{ach.photo}') for ach in achievements],
                 200)
 
