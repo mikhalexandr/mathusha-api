@@ -52,32 +52,31 @@ KEYCLOAK_CLIENT_SECRET_KEY=your_keycloak_client_secret_key
 > To host the API on [Glitch](https://glitch.com/) use [start.sh](https://github.com/mikhalexandr/mathusha-api/blob/main/start.sh)
  
 ## 📝 Documentation
-#### 🧩 SQLAlchemy Database Structure
+### 🧩 SQLAlchemy Database Structure
 * Users Table
   - name - user's name -> str
   - hashed_password - user's hashed password -> str
   - level_amount - number of levels completed by the user -> int (default=0)
   - time - amount of time spent by the user on completion (in seconds) -> int (default=0)
  
-#### 📬 Requests
-* **Register Requests**
-  - POST "/api/register" (body: name -> str, password -> str)
-    + adds a new user (requires name uniqueness check)
-* **Login Requests**
-  - GET "/api/login" (body: name -> str, password -> str)
-    + authorizes the user by checking the username and password
-    + returns number of levels completed and time spent completing (body: level_amount -> int, time -> int)
-* **Update Resources**
-  - PATCH "/api/update/name" (body: name -> str, new_name -> str, password -> str)
-    + updates user's name (requires password confirmation and name uniqueness check)
-  - PATCH "/api/update/password" (body: name -> str, password -> str, new_password -> str)
-    + updates user's password (requires password confirmation and password difference from the old one)
-  - PATCH "/api/update/record" (body: name -> str, level_amount -> int, time -> int)
-    + updates number of levels completed and time spent completing
-* **Delete Requests**
-  - DELETE "/api/delete" (body: name -> str, password -> str)
-    + deletes user data (requires password confirmation) 
-* **Rating Requests**
-  - GET "/api/rating" (body: name -> str)
-    + gets all users in the sorted list (body of each user in list: name -> str, level_amount -> int, time -> int)
-    + gets the user's place in the rating table (body: user_index in list + 1 -> int) 
+### 📬 Requests
+#### Admin
+* **Achievements Requests**
+  - GET "/api/admin/achievements" 
+    + returns list of achievements (body: list[id -> int, name -> str, decription -> str] + list of files)
+  - PATCH "/api/admin/achievement" (body: id -> int, name -> str, decription -> str + file)
+    + updates achievement data
+  - DELETE "/api/admin/achievemnt" (body: id -> int)
+    + deletes achievemnt
+* **Statistics Requests**
+  - GET "/api/admin/statistics"
+    + returns lists of topics, users and achievements for data analysis (topics -> list, users -> list, achievements -> list)
+* **Topics Requests**
+  - GET "/api/admin/topics"
+    + returns topics list (body: list[id -> int, name -> str, decription -> str] + list of files)
+  - POST "/api/admin/topic" (body: name -> str, decription -> str + file + excel_file)
+    + adds new topic
+  - PATCH "/api/admin/topic" (body: id -> int, name -> str, decription -> str + file)
+    + updates topic
+  - DELETE "/api/admin/topic" (body: id -> int)
+    + delete topic
