@@ -20,6 +20,7 @@ def authenticate(func):
             return {"message": "Authentication required"}, 401
 
         token = auth_header.split(" ")[1]
+        print(token)
 
         try:
             token_info = keycloak_openid.introspect(token)
