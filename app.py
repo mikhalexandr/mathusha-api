@@ -60,7 +60,7 @@ def main():
     db_session.global_init("db/Mathusha.db")
     # create_default_data()
     add_resources()
-    app.run()
+    app.run(host='0.0.0.0')
 
 
 if __name__ == "__main__":
