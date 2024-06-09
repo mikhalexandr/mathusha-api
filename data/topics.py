@@ -20,9 +20,3 @@ class Topic(SqlAlchemyBase):
         "Task",
         backref="topic"
     )
-
-    users = orm.relationship(
-        "User",
-        secondary="user_progress",
-        backref="topics"
-    )

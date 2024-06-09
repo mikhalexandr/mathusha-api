@@ -1,28 +1,32 @@
 from data import db_session
 from data.users import User
-from data.user_progress import UserProgress
+from data.achievements import Achievement
 from data.topics import Topic
 
 
 def create_default_data():
     session = db_session.create_session()
-    u1 = User(id='1', username='Alex')
-    u2 = User(id='2', username='NeAlex')
+    u1 = User(id='test1', name='TestUser')
+    u2 = User(id='test2', name='TestUser2')
     session.add(u1)
     session.add(u2)
 
-    t1 = Topic(name='Math', description='Mathhhh', image='math.png')
-    t2 = Topic(name='English', description='English', image='english.png')
+    t1 = Topic(name='Math', description='Mathhhh', eng_name='Math', eng_description='Math', color='#00FF00')
+    t2 = Topic(name='English', description='English', eng_name='English', eng_description='English', color='#FF0000')
+    t3 = Topic(name='Russian', description='Russian', eng_name='Russian', eng_description='Russian', color='#0000FF')
     session.add(t1)
     session.add(t2)
+    session.add(t3)
 
-    p1 = UserProgress(user_id='1', topic_id='1')
-    p2 = UserProgress(user_id='1', topic_id='2')
-    p3 = UserProgress(user_id='2', topic_id='1')
-    p4 = UserProgress(user_id='2', topic_id='2')
-    session.add(p1)
-    session.add(p2)
-    session.add(p3)
-    session.add(p4)
+    a1 = Achievement(name='First achievement', eng_name='First achievement', description='First achievement',
+                     eng_description='First achievement', type=1)
+    a2 = Achievement(name='Second achievement', eng_name='Second achievement', description='Second achievement',
+                     eng_description='Second achievement', type=2)
+    a3 = Achievement(name='Third achievement', eng_name='Third achievement', description='Third achievement',
+                     eng_description='Third achievement', type=3)
+    session.add(a1)
+    session.add(a2)
+    session.add(a3)
 
     session.commit()
+    session.close()
