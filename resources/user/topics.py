@@ -30,7 +30,6 @@ class TopicsResource(Resource):
             res.append({
                 'id': topic.id,
                 'name': topic.name if lang == 'ru' else topic.eng_name,
-                'photo': topic.photo,
             })
         session.commit()
         return res, 200
