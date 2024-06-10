@@ -24,9 +24,19 @@ class AdminAchievementsResource(Resource):
                 'name': ach.name,
                 'description': ach.description
             })
-        return (res,
-                [send_from_directory('assets/achievements', f'{ach.photo}') for ach in achievements],
-                200)
+        return res, 200
+
+
+class AdminAchievementPhotoResource(Resource):
+    @staticmethod
+    @admin_required
+    def get():
+        achievement_id = request.json['id']
+        session = db_session.create_session()
+        achievements = session.query(Achievement).filter(Achievement.id == achievement_id).first()
+        if achievements is None:
+            abort(404, message="Achievements not found")
+        return send_from_directory('assets/achievements', achievements.photo), 200
 
 
 class AdminAchievementResource(Resource):

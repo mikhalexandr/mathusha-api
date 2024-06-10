@@ -3,6 +3,7 @@ from flask_restful import Resource, abort
 from werkzeug.utils import secure_filename
 import os
 
+import consts
 from keycloak_integration import authenticate
 from misc import allowed_file, allowed_file_size
 from data import db_session
@@ -17,6 +18,17 @@ class UserResource(Resource):
     def get():
         session = db_session.create_session()
         current_user = session.query(User).filter(User.id == g.user_id).first()
+        for i in range(len(consts.rating_amount)):
+            if current_user.rating > consts.rating_amount[i]:
+                if current_user.rating_trigger != consts.rating_amount[i]:
+                    current_user.rating_trigger = consts.rating_amount[i]
+                    achievement = session.query(Achievement).filter(Achievement.type == float(f'3.{i + 1}')).first()
+                    user_ach = session.query(UserAchievement).filter(UserAchievement.user_id == g.user_id,
+                                                            UserAchievement.achievement_id == achievement.id).first()
+                    if not user_ach.unlocked:
+                        user_ach.unlocked = True
+                        achievement.taken += 1
+                    session.commit()
         users = session.query(User).all()
         rating = []
         for user in users:
@@ -30,7 +42,7 @@ class UserResource(Resource):
             tmp = float(f'1.{user_index + 1}')
             achievement = session.query(Achievement).filter(Achievement.type == tmp).first()
             user_ach = session.query(UserAchievement).filter(UserAchievement.user_id == g.user_id,
-                                                             UserAchievement.achievement_id == achievement.id).first()
+                                    UserAchievement.achievement_id == achievement.id).first()
             if not user_ach.unlocked:
                 user_ach.unlocked = True
                 achievement.taken += 1

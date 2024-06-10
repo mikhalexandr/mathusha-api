@@ -139,11 +139,11 @@ def create_default_data():
                      eng_description='Solve 1000 tasks!', type=2.2)
     a6 = Achievement(name='Юный математик', eng_name='Young mathematician', description='Решите 500 заданий!',
                      eng_description='Solve 500 tasks!', type=2.3)
-    a7 = Achievement(name='Попстар', eng_name='Popstar', description='Наберите 1000 очков рейтинга!',
+    a7 = Achievement(name='Попстар', eng_name='Popstar', description='Наберите 100 очков рейтинга!',
                      eng_description='Get 1000 points in the ranking!', type=3.1)
     a8 = Achievement(name='Мидлстар', eng_name='Middlestar', description='Наберите 500 очков рейтинга!',
                      eng_description='Get 500 points in the ranking!', type=3.2)
-    a9 = Achievement(name='Юнгстар', eng_name='Youngstar', description='Наберите 100 очков рейтинга!',
+    a9 = Achievement(name='Юнгстар', eng_name='Youngstar', description='Наберите 1000 очков рейтинга!',
                      eng_description='Get 100 points in the ranking!', type=3.3)
     a10 = Achievement(name='Сильнее чем AI', eng_name='Stronger than AI', description='Решите задание от Yandex GPT',
                       eng_description='Solve the task from Yandex GPT', type=0.0)

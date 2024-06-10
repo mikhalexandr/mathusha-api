@@ -1,3 +1,3 @@
-from .achievements import AdminAchievementsResource, AdminAchievementResource
-from .topics import AdminTopicsResource, AdminTopicResource
+from .achievements import AdminAchievementsResource, AdminAchievementResource, AdminAchievementPhotoResource
+from .topics import AdminTopicsResource, AdminTopicResource, AdminTopicPhotoResource
 from .data_statistics import AdminStatisticsResource

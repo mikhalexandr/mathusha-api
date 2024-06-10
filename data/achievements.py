@@ -10,7 +10,7 @@ class Achievement(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     eng_name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    photo = sqlalchemy.Column(sqlalchemy.String, default='assets/achievements/default.jpg')
+    photo = sqlalchemy.Column(sqlalchemy.String, default='default.jpg')
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     eng_description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     type = sqlalchemy.Column(sqlalchemy.Float, nullable=False)

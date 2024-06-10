@@ -1,4 +1,4 @@
-from flask import g, send_from_directory
+from flask import g, request, send_from_directory
 from flask_restful import Resource
 
 from keycloak_integration import authenticate
@@ -43,7 +43,17 @@ class RatingResource(Resource):
                 'id': leader[0],
             })
         return {
-            'rating': rating[3:],
+            'rating': rating,
             'user_info': user_info,
             'leaders': leaders_info,
-        }, [send_from_directory('assets/users', f'{leaders[i][1]}') for i in range(len(leaders))], 200
+        }, 200
+
+
+class LeaderPhotoResource(Resource):
+    @staticmethod
+    @authenticate
+    def get():
+        leader_id = request.json['id']
+        session = db_session.create_session()
+        leader = session.query(User).filter(User.id == leader_id).first()
+        return send_from_directory('assets/users', leader.photo)

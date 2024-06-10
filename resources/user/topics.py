@@ -33,11 +33,17 @@ class TopicsResource(Resource):
                 'photo': topic.photo,
             })
         session.commit()
-        return (
-            res,
-            [send_from_directory('assets/topics', f'{topic.photo}') for topic in topics],
-            200
-        )
+        return res, 200
+
+
+class TopicPhotoResource(Resource):
+    @staticmethod
+    @authenticate
+    def get():
+        topic_id = request.json['id']
+        session = db_session.create_session()
+        topic = session.query(Topic).filter(Topic.id == topic_id).first()
+        return send_from_directory('data/topics', topic.photo)
 
 
 class TopicDescriptionResource(Resource):

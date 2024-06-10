@@ -27,9 +27,19 @@ class AdminTopicsResource(Resource):
                 'name': topic.name,
                 'description': topic.description
             })
-        return (res,
-                [send_from_directory('assets/topics', f'{topic.photo}') for topic in topics],
-                200)
+        return res, 200
+
+
+class AdminTopicPhotoResource(Resource):
+    @staticmethod
+    @admin_required
+    def get():
+        topic_id = request.json['id']
+        session = db_session.create_session()
+        topics = session.query(Topic).filter(Topic.id == topic_id).first()
+        if topics is None:
+            abort(404, message="Topics not found")
+        return send_from_directory('assets/topics', topics.photo), 200
 
 
 class AdminTopicResource(Resource):
