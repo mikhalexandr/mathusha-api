@@ -36,10 +36,10 @@ class AdminTopicPhotoResource(Resource):
     def get():
         topic_id = request.json['id']
         session = db_session.create_session()
-        topics = session.query(Topic).filter(Topic.id == topic_id).first()
-        if topics is None:
+        topic = session.query(Topic).filter(Topic.id == topic_id).first()
+        if topic is None:
             abort(404, message="Topics not found")
-        return send_from_directory('assets/topics', topics.photo), 200
+        return send_from_directory('assets/topics', topic.photo), 200
 
 
 class AdminTopicResource(Resource):
@@ -98,6 +98,7 @@ class AdminTopicResource(Resource):
             topic.description = description
         if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
             os.remove(os.path.join('assets/topics', topic.photo))
+            topic.photo = f'{topic_id}.{secure_filename(file.filename).split(".")[1]}'
             file.save(os.path.join('assets/topics', topic.photo))
         session.commit()
         return {"message": "OK"}, 200
@@ -112,6 +113,8 @@ class AdminTopicResource(Resource):
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
         if topic is None:
             abort(404, message=f"Topic with id [{topic_id}] is not found")
+        if topic.photo != 'default.jpg':
+            os.remove(os.path.join('assets/topics', topic.photo))
         session.delete(topic)
         progress = session.query(UserProgress).filter(UserProgress.topic_id == topic_id).all()
         for prog in progress:

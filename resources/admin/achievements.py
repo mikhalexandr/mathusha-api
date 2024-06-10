@@ -1,5 +1,6 @@
 from flask import request, send_from_directory
 from flask_restful import Resource, abort
+from werkzeug.utils import secure_filename
 import os
 
 from keycloak_integration import admin_required
@@ -33,10 +34,10 @@ class AdminAchievementPhotoResource(Resource):
     def get():
         achievement_id = request.json['id']
         session = db_session.create_session()
-        achievements = session.query(Achievement).filter(Achievement.id == achievement_id).first()
-        if achievements is None:
+        achievement = session.query(Achievement).filter(Achievement.id == achievement_id).first()
+        if achievement is None:
             abort(404, message="Achievements not found")
-        return send_from_directory('assets/achievements', achievements.photo), 200
+        return send_from_directory('assets/achievements', achievement.photo), 200
 
 
 class AdminAchievementResource(Resource):
@@ -61,6 +62,7 @@ class AdminAchievementResource(Resource):
             achievement.eng_description = eng_description
         if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
             os.remove(os.path.join('assets/achievements', achievement.photo))
+            achievement.photo = f'{achievement_id}.{secure_filename(file.filename).split(".")[1]}'
             file.save(os.path.join('assets/achievements', achievement.photo))
         session.commit()
         return {"message": "OK"}, 200
@@ -73,6 +75,8 @@ class AdminAchievementResource(Resource):
         achievement = session.query(Achievement).filter(Achievement.id == achievement_id).first()
         if achievement is None:
             abort(404, message=f"Topic with id [{achievement_id}] is not found")
+        if achievement.photo != 'default.jpg':
+            os.remove(os.path.join('assets/achievements', achievement.photo))
         session.delete(achievement)
         achievements = session.query(UserAchievement).filter(UserAchievement.achievement_id == achievement_id).all()
         for ach in achievements:

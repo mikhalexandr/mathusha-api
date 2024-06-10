@@ -70,15 +70,15 @@ class UserPhotoResource(Resource):
         file = request.files['file']
         if file.filename == '':
             abort(400, message="No selected file")
-        filename = None
+        session = db_session.create_session()
+        user = session.query(User.photo).filter(User.id == g.user_id).first()
         if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
+            os.remove('assets/users/' + user.photo)
             filename = f'{g.user_id}.{secure_filename(file.filename).split(".")[1]}'
             file.save(os.path.join('assets/users', filename))
+            user.photo = filename
         else:
             abort(400, message="File is incorrect")
-        session = db_session.create_session()
-        user = session.query(User).filter(User.id == g.user_id).first()
-        user.photo = 'assets/users/' + filename
         session.commit()
         return {"message": "OK"}, 200
 
@@ -87,7 +87,7 @@ class UserPhotoResource(Resource):
     def delete():
         session = db_session.create_session()
         user = session.query(User).filter(User.id == g.user_id).first()
-        os.remove(user.photo)
-        user.photo = 'assets/users/default.jpg'
+        os.remove('assets/users/' + user.photo)
+        user.photo = 'default.jpg'
         session.commit()
         return {"message": "OK"}, 200
