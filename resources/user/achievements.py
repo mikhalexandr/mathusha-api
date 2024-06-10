@@ -34,4 +34,4 @@ class AchievementPhotoResource(Resource):
     def get(achievement_id):
         session = db_session.create_session()
         achievement = session.query(Achievement).filter(Achievement.id == achievement_id).first()
-        return send_from_directory('data/achievements', achievement.photo)
+        return send_from_directory('assets/achievements', achievement.photo)

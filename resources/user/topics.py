@@ -40,7 +40,7 @@ class TopicPhotoResource(Resource):
     def get(topic_id):
         session = db_session.create_session()
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
-        return send_from_directory('data/topics', topic.photo)
+        return send_from_directory('assets/topics', topic.photo)
 
 
 class TopicDescriptionResource(Resource):
