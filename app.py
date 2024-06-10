@@ -46,7 +46,7 @@ api.add_resource(AchievementsResource, '/api/user/achievements')
 api.add_resource(AchievementPhotoResource, '/api/user/achievement_photo/<int:achievement_id>')
 api.add_resource(ProgressResource, '/api/user/progress')
 api.add_resource(RatingResource, '/api/user/rating')
-api.add_resource(LeaderPhotoResource, '/api/user/leader_photo/<str:leader_id>')
+api.add_resource(LeaderPhotoResource, '/api/user/leader_photo/<leader_id>')
 
 api.add_resource(AdminTopicsResource, '/api/admin/topics')
 api.add_resource(AdminTopicResource, '/api/admin/topic/<int:topic_id>')
