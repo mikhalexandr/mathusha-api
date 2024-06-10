@@ -32,6 +32,7 @@ if not os.path.isdir("db"):
     os.mkdir("db")
 db_session.global_init("db/Mathusha.db")
 
+
 api = Api(app)
 api.add_resource(UserResource, '/api/user')
 api.add_resource(UserPhotoResource, '/api/user/photo')
