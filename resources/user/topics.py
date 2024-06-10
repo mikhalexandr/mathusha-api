@@ -12,7 +12,7 @@ class TopicsResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        lang = request.json['lang']
+        lang = request.args.get('lang', 'ru')
         session = db_session.create_session()
         user = session.query(User).filter(User.id == g.user_id).first()
         if not user:
@@ -40,7 +40,7 @@ class TopicPhotoResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        topic_id = request.json['id']
+        topic_id = request.args.get('id', None)
         session = db_session.create_session()
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
         return send_from_directory('data/topics', topic.photo)
@@ -50,8 +50,8 @@ class TopicDescriptionResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        topic_id = request.json['id']
-        lang = request.json['lang']
+        topic_id = request.args.get('id', None)
+        lang = request.args.get('lang', 'ru')
         session = db_session.create_session()
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
         if topic is None:
@@ -65,7 +65,7 @@ class TopicsForMixResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        lang = request.json['lang']
+        lang = request.args.get('lang', 'ru')
         session = db_session.create_session()
         topics = session.query(Topic).all()
         res = []

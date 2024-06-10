@@ -11,7 +11,7 @@ class ProgressResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        lang = request.json['lang']
+        lang = request.args.get('lang', 'ru')
         session = db_session.create_session()
         user = session.query(User).filter(User.id == g.user_id).first()
         res = []

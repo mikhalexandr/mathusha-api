@@ -53,7 +53,7 @@ class LeaderPhotoResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        leader_id = request.json['id']
+        leader_id = request.args.get('id', None)
         session = db_session.create_session()
         leader = session.query(User).filter(User.id == leader_id).first()
         return send_from_directory('assets/users', leader.photo)

@@ -12,7 +12,7 @@ class AchievementsResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        lang = request.json['lang']
+        lang = request.args.get('lang', 'ru')
         session = db_session.create_session()
         user = session.query(User).filter(User.id == g.user_id).first()
         res = []
@@ -33,7 +33,7 @@ class AchievementPhotoResource(Resource):
     @staticmethod
     @authenticate
     def get():
-        achievement_id = request.json['id']
+        achievement_id = request.args.get('id', None)
         session = db_session.create_session()
         achievement = session.query(Achievement).filter(Achievement.id == achievement_id).first()
         return send_from_directory('data/achievements', achievement.photo)

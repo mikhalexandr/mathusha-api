@@ -34,7 +34,7 @@ class AdminTopicPhotoResource(Resource):
     @staticmethod
     @admin_required
     def get():
-        topic_id = request.json['id']
+        topic_id = request.args.get('id', None)
         session = db_session.create_session()
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
         if topic is None:

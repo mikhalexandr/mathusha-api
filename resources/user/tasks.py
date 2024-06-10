@@ -19,10 +19,10 @@ class TaskResource(Resource):
     @authenticate
     def get():
         try:
-            topic_id = request.json['id']
-            complexity = request.json['complexity']
-            tasks_for_mix = request.json['tasks_for_mix']
-            lang = request.json['lang']
+            topic_id = request.args.get('id', None)
+            complexity = request.args.get('complexity', None)
+            tasks_for_mix = request.args.get('tasks_for_mix', [])
+            lang = request.args.get('lang', 'ru')
             session = db_session.create_session()
             if topic_id <= len(list_of_generated_tasks):
                 return list_of_generated_tasks[topic_id - 1](complexity), 200

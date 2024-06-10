@@ -32,7 +32,7 @@ class AdminAchievementPhotoResource(Resource):
     @staticmethod
     @admin_required
     def get():
-        achievement_id = request.json['id']
+        achievement_id = request.args.get('id', None)
         session = db_session.create_session()
         achievement = session.query(Achievement).filter(Achievement.id == achievement_id).first()
         if achievement is None:
