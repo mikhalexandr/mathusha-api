@@ -17,9 +17,8 @@ import consts
 class TaskResource(Resource):
     @staticmethod
     @authenticate
-    def get():
+    def get(topic_id):
         try:
-            topic_id = request.args.get('id', None)
             complexity = request.args.get('complexity', None)
             tasks_for_mix = request.args.get('tasks_for_mix', [])
             lang = request.args.get('lang', 'ru')
@@ -52,8 +51,7 @@ class TaskResource(Resource):
 class SolvedTaskResource(Resource):
     @staticmethod
     @authenticate
-    def patch():
-        topic_id = request.json['id']
+    def patch(topic_id):
         complexity = request.json['complexity']
         session = db_session.create_session()
         user = session.query(User).filter(User.id == g.user_id).first()

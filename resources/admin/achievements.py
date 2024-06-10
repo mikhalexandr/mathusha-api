@@ -31,8 +31,7 @@ class AdminAchievementsResource(Resource):
 class AdminAchievementPhotoResource(Resource):
     @staticmethod
     @admin_required
-    def get():
-        achievement_id = request.args.get('id', None)
+    def get(achievement_id):
         session = db_session.create_session()
         achievement = session.query(Achievement).filter(Achievement.id == achievement_id).first()
         if achievement is None:
@@ -43,8 +42,7 @@ class AdminAchievementPhotoResource(Resource):
 class AdminAchievementResource(Resource):
     @staticmethod
     @admin_required
-    def patch():
-        achievement_id = request.json['id']
+    def patch(achievement_id):
         name = request.json['name']
         eng_name = translate(name, 'en')
         description = request.json['description']
@@ -69,8 +67,7 @@ class AdminAchievementResource(Resource):
 
     @staticmethod
     @admin_required
-    def delete():
-        achievement_id = request.json['id']
+    def delete(achievement_id):
         session = db_session.create_session()
         achievement = session.query(Achievement).filter(Achievement.id == achievement_id).first()
         if achievement is None:

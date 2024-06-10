@@ -38,8 +38,7 @@ class TopicsResource(Resource):
 class TopicPhotoResource(Resource):
     @staticmethod
     @authenticate
-    def get():
-        topic_id = request.args.get('id', None)
+    def get(topic_id):
         session = db_session.create_session()
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
         return send_from_directory('data/topics', topic.photo)
@@ -48,8 +47,7 @@ class TopicPhotoResource(Resource):
 class TopicDescriptionResource(Resource):
     @staticmethod
     @authenticate
-    def get():
-        topic_id = request.args.get('id', None)
+    def get(topic_id):
         lang = request.args.get('lang', 'ru')
         session = db_session.create_session()
         topic = session.query(Topic).filter(Topic.id == topic_id).first()

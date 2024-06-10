@@ -33,8 +33,7 @@ class AdminTopicsResource(Resource):
 class AdminTopicPhotoResource(Resource):
     @staticmethod
     @admin_required
-    def get():
-        topic_id = request.args.get('id', None)
+    def get(topic_id):
         session = db_session.create_session()
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
         if topic is None:
@@ -43,6 +42,47 @@ class AdminTopicPhotoResource(Resource):
 
 
 class AdminTopicResource(Resource):
+    @staticmethod
+    @admin_required
+    def patch(topic_id):
+        name = request.json['name']
+        description = request.json['description']
+        file = request.files['file']
+        session = db_session.create_session()
+        topic = session.query(Topic).filter(Topic.id == topic_id).first()
+        if topic is None:
+            abort(404, message=f"Topic with id [{topic_id}] is not found")
+        if name is not None:
+            topic.name = name
+        if description is not None:
+            topic.description = description
+        if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
+            os.remove(os.path.join('assets/topics', topic.photo))
+            topic.photo = f'{topic_id}.{secure_filename(file.filename).split(".")[1]}'
+            file.save(os.path.join('assets/topics', topic.photo))
+        session.commit()
+        return {"message": "OK"}, 200
+
+    @staticmethod
+    @admin_required
+    def delete(topic_id):
+        if topic_id < len(list_of_generated_tasks) + 2:
+            abort(400, message=f"Topic with id [{topic_id}] can't be deleted")
+        session = db_session.create_session()
+        topic = session.query(Topic).filter(Topic.id == topic_id).first()
+        if topic is None:
+            abort(404, message=f"Topic with id [{topic_id}] is not found")
+        if topic.photo != 'default.jpg':
+            os.remove(os.path.join('assets/topics', topic.photo))
+        session.delete(topic)
+        progress = session.query(UserProgress).filter(UserProgress.topic_id == topic_id).all()
+        for prog in progress:
+            session.delete(prog)
+        session.commit()
+        return {"message": "OK"}, 200
+
+
+class AdminAddTopicResource(Resource):
     @staticmethod
     @admin_required
     def post():
@@ -78,46 +118,5 @@ class AdminTopicResource(Resource):
                 topic_id=count + 1
             )
             session.add(user_progress)
-        session.commit()
-        return {"message": "OK"}, 200
-
-    @staticmethod
-    @admin_required
-    def patch():
-        topic_id = request.json['id']
-        name = request.json['name']
-        description = request.json['description']
-        file = request.files['file']
-        session = db_session.create_session()
-        topic = session.query(Topic).filter(Topic.id == topic_id).first()
-        if topic is None:
-            abort(404, message=f"Topic with id [{topic_id}] is not found")
-        if name is not None:
-            topic.name = name
-        if description is not None:
-            topic.description = description
-        if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
-            os.remove(os.path.join('assets/topics', topic.photo))
-            topic.photo = f'{topic_id}.{secure_filename(file.filename).split(".")[1]}'
-            file.save(os.path.join('assets/topics', topic.photo))
-        session.commit()
-        return {"message": "OK"}, 200
-
-    @staticmethod
-    @admin_required
-    def delete():
-        topic_id = request.json['id']
-        if topic_id < len(list_of_generated_tasks) + 2:
-            abort(400, message=f"Topic with id [{topic_id}] can't be deleted")
-        session = db_session.create_session()
-        topic = session.query(Topic).filter(Topic.id == topic_id).first()
-        if topic is None:
-            abort(404, message=f"Topic with id [{topic_id}] is not found")
-        if topic.photo != 'default.jpg':
-            os.remove(os.path.join('assets/topics', topic.photo))
-        session.delete(topic)
-        progress = session.query(UserProgress).filter(UserProgress.topic_id == topic_id).all()
-        for prog in progress:
-            session.delete(prog)
         session.commit()
         return {"message": "OK"}, 200
