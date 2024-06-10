@@ -20,6 +20,7 @@ class RatingResource(Resource):
                 'rating': user.rating,
             })
         rating = sorted(rating, key=lambda x: x['rating'], reverse=True)
+        rating = rating[:100]
         user_index = [x for x in range(len(rating)) if rating[x]["id"] == g.user_id][0]
         user_info = rating[user_index], user_index + 1
         list_leaders = []
