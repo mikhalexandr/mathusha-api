@@ -13,14 +13,17 @@ class RatingResource(Resource):
         session = db_session.create_session()
         users = session.query(User).all()
         rating = []
+        h = 0
         for user in users:
+            h += 1
+            if h > 100:
+                break
             rating.append({
                 'id': user.id,
                 'username': user.name,
                 'rating': user.rating,
             })
         rating = sorted(rating, key=lambda x: x['rating'], reverse=True)
-        rating = rating[:100]
         user_index = [x for x in range(len(rating)) if rating[x]["id"] == g.user_id][0]
         user_info = rating[user_index], user_index + 1
         list_leaders = []
@@ -36,12 +39,13 @@ class RatingResource(Resource):
             list_leaders.append(leader1['id'])
             list_leaders.append(leader2['id'])
             list_leaders.append(leader3['id'])
-        leaders = list((session.query(User.id, User.photo).filter
+        leaders = list((session.query(User.id, User.name).filter
                    (User.id.in_([i for i in list_leaders])).all()))
         leaders_info = []
         for leader in leaders:
             leaders_info.append({
                 'id': leader[0],
+                'username': leader[1],
             })
         return {
             'rating': rating,
