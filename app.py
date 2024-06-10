@@ -58,10 +58,10 @@ api.add_resource(AdminAchievementPhotoResource, '/api/admin/achievement/photo/<i
 api.add_resource(AdminStatisticsResource, '/api/admin/statistics')
 
 
-# def main():
-#     # create_default_data()
-#     app.run(host='0.0.0.0')
-#
-#
-# if __name__ == '__main__':
-#     main()
+def main():
+    # create_default_data()
+    app.run(host='0.0.0.0')
+
+
+if __name__ == '__main__':
+    main()
