@@ -38,7 +38,7 @@ class TaskResource(Resource):
             else:
                 topic_tasks = list(session.query(Task.problem, Task.solution).filter(Task.topic_id == topic_id,
                                                                                      Task.complexity == complexity).all())
-                if topic_tasks is None:
+                if len(topic_tasks) == 0:
                     abort(404, message=f"Tasks with topic_id [{topic_id}] and complexity [{complexity}] are not found")
                 index = random.randint(0, len(topic_tasks) - 1)
                 return {
@@ -67,7 +67,7 @@ class SolvedTaskResource(Resource):
                 achievement = session.query(Achievement).filter(Achievement.type == 0.0).first()
                 achievement.taken += 1
                 user_achievement = session.query(UserAchievement).filter(UserAchievement.user_id == g.user_id,
-                                                                         Achievement.id == achievement.id).first()
+                                                            UserAchievement.achievement_id == achievement.id).first()
                 user_achievement.unlocked = True
         elif complexity == 1:
             user_progress.easy_solved_tasks += 1
@@ -81,7 +81,7 @@ class SolvedTaskResource(Resource):
         user.solved_tasks += 1
         if user.solved_tasks in consts.solved_tasks_amount:
             tmp = float(f'2.{str(consts.solved_tasks_amount.index(user.solved_tasks) + 1)}')
-            achievement = session.query(Achievement).filter(Achievement.type == tmp).all()
+            achievement = session.query(Achievement).filter(Achievement.type == tmp).first()
             user_achievement = session.query(UserAchievement).filter(UserAchievement.user_id == g.user_id,
                                                             UserAchievement.achievement_id == achievement.id).first()
             if not user_achievement.unlocked:

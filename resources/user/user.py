@@ -19,7 +19,7 @@ class UserResource(Resource):
         session = db_session.create_session()
         current_user = session.query(User).filter(User.id == g.user_id).first()
         for i in range(len(consts.rating_amount)):
-            if current_user.rating > consts.rating_amount[i]:
+            if current_user.rating >= consts.rating_amount[i]:
                 if current_user.rating_trigger != consts.rating_amount[i]:
                     current_user.rating_trigger = consts.rating_amount[i]
                     achievement = session.query(Achievement).filter(Achievement.type == float(f'3.{i + 1}')).first()

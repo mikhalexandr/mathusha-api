@@ -22,5 +22,5 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 
 # achievement triggers
-solved_tasks_amount = [10000, 1000, 500]
-rating_amount = [100, 500, 1000]
+solved_tasks_amount = [1000, 500, 100]
+rating_amount = [200, 1000, 5000]

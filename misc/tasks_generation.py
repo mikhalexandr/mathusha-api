@@ -77,6 +77,7 @@ def root_generation(complexity):
         problem, solution = mathgenerator.genById(id_square, 1, 12)
         problem = re.sub(r'{|}|\$|=|\\sqrt',
                          lambda match: {'{': '', '}': '', '$': '', '=': '', r'\sqrt': '√'}[match.group(0)], problem)
+        solution = solution[1:-1]
     if complexity == 2:
         for_three = random.randint(1, 5)
         problem, solution = f'∛{for_three ** 3}', f'{for_three}'
@@ -97,6 +98,7 @@ def power_generation(complexity):
     if complexity == 2:
         id_ = 53
         problem, solution = mathgenerator.genById(id_, 5, 5)
+        problem = problem[:-1]
     if complexity == 3:
         n = random.randint(1, 6)
         for_add1, for_add2 = random.randint(1, 4), random.randint(1, 4)
@@ -161,7 +163,7 @@ def factorial_generation(complexity):
     if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 14)
     return {
-        'problem': problem[1:-2],
+        'problem': problem[1:-3],
         'solution': solution[1:-1]
     }
 
@@ -209,11 +211,11 @@ def linear_equation_generation(complexity):
     id_simple, id_hard = 11, 26
     problem, solution = None, None
     if complexity == 1:
-        problem, solution = mathgenerator.genById(id_simple, 10)
-    if complexity == 2:
         problem, solution = mathgenerator.genById(id_simple, 20)
-    if complexity == 3:
+    if complexity == 2:
         problem, solution = mathgenerator.genById(id_simple, 30)
+    if complexity == 3:
+        problem, solution = mathgenerator.genById(id_simple, 40)
     return {
         'problem': problem[1:-1],
         'solution': solution[1:-1]
@@ -289,21 +291,22 @@ def mixed_generation(complexity, *selected_ids):
     global list_of_generated_tasks
     selected_ids = list(selected_ids)
     if len(selected_ids) == 0:
-        return "No topic id selected :("
+        abort(404, message=f"Tasks for mix [{len(selected_ids)}] are not found")
     chosen_list = []
     for task in range(1, len(list_of_generated_tasks) + 1):
-        if task in selected_ids:
+        if task in selected_ids[0]:
             chosen_list.append(list_of_generated_tasks[task - 1])
-            selected_ids.remove(task)
+            selected_ids[0].remove(task)
     random_expression = random.choice(chosen_list)
 
     added_task = None
-    if len(selected_ids) > 0:
+    print(selected_ids[0])
+    if len(selected_ids[0]) > 0:
         session = db_session.create_session()
-        topic_tasks = list(session.query(Task.problem, Task.solution).filter(Task.topic_id.in_(selected_ids),
+        topic_tasks = list(session.query(Task.problem, Task.solution).filter(Task.topic_id.in_(selected_ids[0]),
                                                                              Task.complexity == complexity).all())
         if len(topic_tasks) == 0:
-            abort(404, message=f"Tasks with topic_id [{selected_ids}] and complexity [{complexity}] are not found")
+            abort(404, message=f"Tasks with topic_id [{selected_ids[0]}] and complexity [{complexity}] are not found")
         index = random.randint(0, len(topic_tasks) - 1)
         added_task = {
             'problem': topic_tasks[index][0],
@@ -313,6 +316,8 @@ def mixed_generation(complexity, *selected_ids):
     if added_task is not None:
         tmp = random.randint(0, 1)
         if tmp == 0:
-            return random_expression(complexity)
+            return random_expression(complexity), added_task
         else:
             return added_task
+    else:
+        return random_expression(complexity)
