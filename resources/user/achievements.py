@@ -31,7 +31,6 @@ class AchievementsResource(Resource):
 
 class AchievementPhotoResource(Resource):
     @staticmethod
-    @authenticate
     def get(achievement_id):
         session = db_session.create_session()
         achievement = session.query(Achievement).filter(Achievement.id == achievement_id).first()

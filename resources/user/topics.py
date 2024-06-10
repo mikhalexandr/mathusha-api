@@ -37,7 +37,6 @@ class TopicsResource(Resource):
 
 class TopicPhotoResource(Resource):
     @staticmethod
-    @authenticate
     def get(topic_id):
         session = db_session.create_session()
         topic = session.query(Topic).filter(Topic.id == topic_id).first()
