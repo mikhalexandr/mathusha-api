@@ -7,6 +7,9 @@
 
 API which is written for the Mathusha service. It interacts with user data and also has the ability to perform admin requests
 
+> [!NOTE]
+> Other project repositories: [mobile](https://github.com/Street02krutoy/math-app), [web](https://github.com/yukky9/novgorodhack), [telegram-bot](https://github.com/mikhalexandr/telegram-bot-tech-support)
+
 ## 🛠️ Tech Stack
 ㅤ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
