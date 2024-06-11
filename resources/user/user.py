@@ -48,6 +48,7 @@ class UserResource(Resource):
                 achievement.taken += 1
                 session.commit()
         return {
+            'id': current_user.id,
             'username': current_user.name,
             'rating': current_user.rating,
             'place_in_top': user_index + 1
@@ -56,23 +57,22 @@ class UserResource(Resource):
 
 class UserPhotoResource(Resource):
     @staticmethod
-    @authenticate
-    def get():
+    def get(user_id):
         session = db_session.create_session()
-        user = session.query(User).filter(User.id == g.user_id).first()
+        user = session.query(User).filter(User.id == user_id).first()
         session.commit()
         return send_from_directory('assets/users', user.photo)
 
     @staticmethod
     @authenticate
-    def put():
+    def put(user_id):
         if 'file' not in request.files:
             abort(400, message="No file part")
         file = request.files['file']
         if file.filename == '':
             abort(400, message="No selected file")
         session = db_session.create_session()
-        user = session.query(User.photo).filter(User.id == g.user_id).first()
+        user = session.query(User.photo).filter(User.id == user_id).first()
         if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
             os.remove('assets/users/' + user.photo)
             filename = f'{g.user_id}.{secure_filename(file.filename).split(".")[1]}'
@@ -85,9 +85,9 @@ class UserPhotoResource(Resource):
 
     @staticmethod
     @authenticate
-    def delete():
+    def delete(user_id):
         session = db_session.create_session()
-        user = session.query(User).filter(User.id == g.user_id).first()
+        user = session.query(User).filter(User.id == user_id).first()
         os.remove('assets/users/' + user.photo)
         user.photo = 'default.jpg'
         session.commit()

@@ -34,7 +34,6 @@ class RatingResource(Resource):
 
 class LeaderPhotoResource(Resource):
     @staticmethod
-    @authenticate
     def get(leader_id):
         session = db_session.create_session()
         leader = session.query(User).filter(User.id == leader_id).first()
