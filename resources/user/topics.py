@@ -71,4 +71,5 @@ class TopicsForMixResource(Resource):
                     'id': topic.id,
                     'name': topic.name if lang == 'ru' else topic.eng_name,
                 })
+        session.commit()
         return res, 200
