@@ -57,9 +57,10 @@ class UserResource(Resource):
 
 class UserPhotoResource(Resource):
     @staticmethod
-    def get(user_id):
+    @authenticate
+    def get():
         session = db_session.create_session()
-        user = session.query(User).filter(User.id == user_id).first()
+        user = session.query(User).filter(User.id == g.user_id).first()
         if user is None:
             abort(404, message="User not found")
         session.commit()
@@ -67,19 +68,20 @@ class UserPhotoResource(Resource):
 
     @staticmethod
     @authenticate
-    def put(user_id):
+    def put():
         if 'file' not in request.files:
             abort(400, message="No file part")
         file = request.files['file']
         if file.filename == '':
             abort(400, message="No selected file")
         session = db_session.create_session()
-        user = session.query(User.photo).filter(User.id == user_id).first()
+        user = session.query(User).filter(User.id == g.user_id).first()
         if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
-            os.remove('assets/users/' + user.photo)
-            filename = f'{user_id}.{secure_filename(file.filename).split(".")[1]}'
+            if secure_filename(file.filename).split(".")[0] in user.photo:
+                os.remove('assets/users/' + user.photo)
+            filename = f'{g.user_id}.{secure_filename(file.filename).split(".")[-1]}'
             file.save(os.path.join('assets/users', filename))
-            user.photo = filename
+            user.photo = str(filename)
         else:
             abort(400, message="File is incorrect")
         session.commit()
@@ -87,9 +89,9 @@ class UserPhotoResource(Resource):
 
     @staticmethod
     @authenticate
-    def delete(user_id):
+    def delete():
         session = db_session.create_session()
-        user = session.query(User).filter(User.id == user_id).first()
+        user = session.query(User).filter(User.id == g.user_id).first()
         os.remove('assets/users/' + user.photo)
         user.photo = 'default.jpg'
         session.commit()
