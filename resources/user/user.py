@@ -77,7 +77,7 @@ class UserPhotoResource(Resource):
         user = session.query(User.photo).filter(User.id == user_id).first()
         if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
             os.remove('assets/users/' + user.photo)
-            filename = f'{g.user_id}.{secure_filename(file.filename).split(".")[1]}'
+            filename = f'{user_id}.{secure_filename(file.filename).split(".")[1]}'
             file.save(os.path.join('assets/users', filename))
             user.photo = filename
         else:
