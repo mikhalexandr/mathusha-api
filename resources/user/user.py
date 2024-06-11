@@ -60,6 +60,8 @@ class UserPhotoResource(Resource):
     def get(user_id):
         session = db_session.create_session()
         user = session.query(User).filter(User.id == user_id).first()
+        if user is None:
+            abort(404, message="User not found")
         session.commit()
         return send_from_directory('assets/users', user.photo)
 
