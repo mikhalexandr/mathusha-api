@@ -11,7 +11,7 @@ def generate_color():
     return '#%02X%02X%02X' % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
 
-def excel_to_db(session, excel_file_path, sheet_name, eng_name, description, eng_description, filename, id_):
+def excel_to_db(session, excel_file_path, sheet_name, eng_name, description, eng_description, filename, id_, placeholder):
     if filename is None:
         abort(404, message="File not found")
     df = None
@@ -26,7 +26,8 @@ def excel_to_db(session, excel_file_path, sheet_name, eng_name, description, eng
         description=description,
         eng_description=eng_description,
         photo=filename,
-        color=generate_color()
+        color=generate_color(),
+        placeholder=placeholder
     )
     session.add(theme)
     for i in range(len(df)):
