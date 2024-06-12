@@ -57,8 +57,10 @@ class AdminTopicResource(Resource):
             topic.name = name
         if description is not None:
             topic.description = description
+            topic.eng_description = translate(topic.description, 'en')
         if placeholder is not None:
             topic.placeholder = placeholder
+            topic.eng_placeholder = translate(topic.placeholder, 'en')
         if file and allowed_file(file.filename) and allowed_file_size(file.content_length):
             os.remove(os.path.join('assets/topics', topic.photo))
             topic.photo = f'{topic_id}.{secure_filename(file.filename).split(".")[1]}'
@@ -96,6 +98,7 @@ class AdminAddTopicResource(Resource):
         description = request.json['description']
         eng_description = translate(description, 'en')
         placeholder = request.json['placeholder']
+        eng_placeholder = translate(placeholder, 'en')
         file = request.files['file']
         excel_file = request.files['excel_file']
         if file.filename == '' or excel_file.filename == '':
@@ -112,7 +115,7 @@ class AdminAddTopicResource(Resource):
             fn = f'adding_theme.{secure_filename(excel_file.filename).split(".")[1]}'
             excel_file.save(os.path.join('assets/topics', fn))
             excel_to_db(session, f'assets/{fn}', name, eng_name, description, eng_description, filename,
-                        count + 1, placeholder)
+                        count + 1, placeholder, eng_placeholder)
         else:
             abort(400, message="Excel file is incorrect")
         users = session.query(User.id).all()

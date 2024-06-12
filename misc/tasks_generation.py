@@ -19,7 +19,7 @@ def addition_generation(complexity):
         problem, solution = mathgenerator.genById(id_, 99, 99)
     return {
         'problem': problem[1:-2],
-        'solution': solution[1:-1]
+        'solution': solution[1:-1].split('|')
     }
 
 
@@ -34,7 +34,7 @@ def subtraction_generation(complexity):
         problem, solution = mathgenerator.genById(id_, 99, 99)
     return {
         'problem': problem[1:-2],
-        'solution': solution[1:-1]
+        'solution': solution[1:-1].split('|')
     }
 
 
@@ -50,7 +50,7 @@ def multiplication_generation(complexity):
     problem = re.sub(r'\\cdot', '*', problem)
     return {
         'problem': problem[1:-1],
-        'solution': solution[1:-1]
+        'solution': solution[1:-1].split('|')
     }
 
 
@@ -66,7 +66,7 @@ def division_generation(complexity):
     problem = re.sub(r'\\div', '/', problem)
     return {
         'problem': problem[1:-2],
-        'solution': solution[1:-1]
+        'solution': solution[1:-1].split('|')
     }
 
 
@@ -86,7 +86,7 @@ def root_generation(complexity):
         problem, solution = f'∜{for_four ** 4}', f'{for_four}'
     return {
         'problem': problem,
-        'solution': solution
+        'solution': solution.split('|')
     }
 
 
@@ -133,7 +133,7 @@ def power_generation(complexity):
     problem = re.sub(r'\^(\d)', replace_superscript, problem)
     return {
         "problem": problem[1:-2],
-        "solution": solution[1:-1]
+        "solution": solution[1:-1].split('|')
     }
 
 
@@ -147,9 +147,12 @@ def fractional_to_decimal_generation(complexity):
     if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 99, 99)
     problem = re.sub(r'\\div', '/', problem)
+    solution = solution[1:-1]
+    if len(solution) == 3:
+        solution = f'{solution}0'
     return {
         'problem': problem[1:-2],
-        'solution': solution[1:-1]
+        'solution': solution.split('|')
     }
 
 
@@ -164,7 +167,7 @@ def factorial_generation(complexity):
         problem, solution = mathgenerator.genById(id_, 14)
     return {
         'problem': problem[1:-3],
-        'solution': solution[1:-1]
+        'solution': solution[1:-1].split('|')
     }
 
 
@@ -181,7 +184,7 @@ def logarithm_generation(complexity):
                      lambda match: f'{chr(0x2080 + int(unicodedata.numeric(match.group(1))))}', problem)
     return {
         'problem': problem[1:-2],
-        'solution': solution[1:-1]
+        'solution': solution[1:-1].split('|')
     }
 
 
@@ -203,12 +206,12 @@ def trigonometric_values_generation(complexity):
                       solution)
     return {
         'problem': problem[2:-4],
-        'solution': solution
+        'solution': solution.split('|')
     }
 
 
 def linear_equation_generation(complexity):
-    id_simple, id_hard = 11, 26
+    id_simple = 11
     problem, solution = None, None
     if complexity == 1:
         problem, solution = mathgenerator.genById(id_simple, 20)
@@ -218,7 +221,7 @@ def linear_equation_generation(complexity):
         problem, solution = mathgenerator.genById(id_simple, 40)
     return {
         'problem': problem[1:-1],
-        'solution': solution[1:-1]
+        'solution': solution[1:-1].split('|')
     }
 
 
@@ -232,12 +235,12 @@ def quadratic_equation_generation(complexity):
         x1, x2 = random.randint(-30, 30), random.randint(-30, 30)
     p, q = (x1 + x2) * -1, x1 * x2
     p_to_pr, q_to_pr = f'+{abs(p)}' if p >= 0 else f'-{abs(p)}', f'+{abs(q)}' if q >= 0 else f'-{abs(q)}'
-    problem, solution = f'$x^2{p_to_pr}x{q_to_pr}=0$', f'$x1={x1}, x2={x2}$'
+    problem, solution = f'$x^2{p_to_pr}x{q_to_pr}=0$', f'{x1}, {x2}|{x2}, {x1}'
     problem, solution = re.sub(r'([+=-])', r' \1 ', problem), re.sub(r'(=)', r' \1 ', solution)
     problem = re.sub(r'\^2', '²', problem)
     return {
         'problem': problem[1:-1],
-        'solution': solution[1:-1]
+        'solution': solution.split('|')
     }
 
 
@@ -275,7 +278,7 @@ def linear_inequality_generation(complexity):
     solution = re.sub(r"(>=)|(<=)", lambda match: "≥" if match.group(1) else "≤", solution)
     return {
         'problem': problem,
-        'solution': solution
+        'solution': solution.split('|')
     }
 
 
@@ -300,7 +303,6 @@ def mixed_generation(complexity, *selected_ids):
     random_expression = random.choice(chosen_list)
 
     added_task = None
-    print(selected_ids[0])
     if len(selected_ids[0]) > 0:
         session = db_session.create_session()
         topic_tasks = list(session.query(Task.problem, Task.solution).filter(Task.topic_id.in_(selected_ids[0]),

@@ -20,7 +20,8 @@ class TaskResource(Resource):
     def get(topic_id):
         try:
             complexity = int(request.args.get('complexity', None))
-            tasks_for_mix = request.args.get('tasks_for_mix', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+            tasks_for_mix = request.args.get('topics', '1,2,3,4,5,6,7,8,9,10,11,12,13')
+            tasks_for_mix = [int(i) for i in tasks_for_mix.split(',')]
             lang = request.args.get('lang', 'ru')
             session = db_session.create_session()
             if topic_id <= len(list_of_generated_tasks):

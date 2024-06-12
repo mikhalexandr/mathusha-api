@@ -14,7 +14,8 @@ class Topic(SqlAlchemyBase):
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     eng_description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     color = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    placeholder = sqlalchemy.Column(sqlalchemy.String, default='N')
+    placeholder = sqlalchemy.Column(sqlalchemy.String, default='')
+    eng_placeholder = sqlalchemy.Column(sqlalchemy.String, default='')
     solved_tasks = sqlalchemy.Column(sqlalchemy.Integer, default=0)
 
     tasks = orm.relationship(

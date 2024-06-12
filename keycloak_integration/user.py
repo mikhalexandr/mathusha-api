@@ -1,15 +1,6 @@
 from flask import request, g
 from functools import wraps
-from keycloak import KeycloakOpenID
 import consts
-
-
-keycloak_openid = KeycloakOpenID(
-    server_url=consts.KEYCLOAK_SERVER_URL,
-    client_id=consts.KEYCLOAK_CLIENT_ID,
-    realm_name=consts.KEYCLOAK_USER_REALM_NAME,
-    client_secret_key=consts.KEYCLOAK_CLIENT_SECRET_KEY
-)
 
 
 def authenticate(func):
@@ -22,13 +13,11 @@ def authenticate(func):
         token = auth_header.split(" ")[1]
 
         try:
-            token_info = keycloak_openid.introspect(token)
+            token_info = consts.keycloak_openid.introspect(token)
             if not token_info.get("active"):
-                print("Invalid token active")
                 return {"message": "Invalid token"}, 401
         except Exception as e:
-            print("Auth error:", e)
-            return {"message": "Invalid token"}, 401
+            return {"message": f"Invalid token with error [{e}]"}, 401
 
         g.user_id = token_info["sub"]
         g.user_name = token_info["preferred_username"]
