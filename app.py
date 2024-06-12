@@ -35,6 +35,7 @@ db_session.global_init("db/Mathusha.db")
 
 api = Api(app)
 api.add_resource(UserResource, '/api/user')
+api.add_resource(UserNameResource, '/api/user/name')
 api.add_resource(UserPhotoResource, '/api/user/photo')
 api.add_resource(TopicsResource, '/api/user/topics')
 api.add_resource(TopicPhotoResource, '/api/user/topic_photo/<int:topic_id>')

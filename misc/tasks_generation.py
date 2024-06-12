@@ -12,11 +12,11 @@ def addition_generation(complexity):
     id_ = 0
     problem, solution = None, None
     if complexity == 1:
-        problem, solution = mathgenerator.genById(id_, 19, 19)
-    if complexity == 2:
-        problem, solution = mathgenerator.genById(id_, 49, 49)
-    if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 99, 99)
+    if complexity == 2:
+        problem, solution = mathgenerator.genById(id_, 499, 499)
+    if complexity == 3:
+        problem, solution = mathgenerator.genById(id_, 999, 999)
     return {
         'problem': problem[1:-2],
         'solution': solution[1:-1].split('|')
@@ -27,11 +27,11 @@ def subtraction_generation(complexity):
     id_ = 1
     problem, solution = None, None
     if complexity == 1:
-        problem, solution = mathgenerator.genById(id_, 19, 19)
-    if complexity == 2:
-        problem, solution = mathgenerator.genById(id_, 49, 49)
-    if complexity == 3:
         problem, solution = mathgenerator.genById(id_, 99, 99)
+    if complexity == 2:
+        problem, solution = mathgenerator.genById(id_, 499, 499)
+    if complexity == 3:
+        problem, solution = mathgenerator.genById(id_, 999, 999)
     return {
         'problem': problem[1:-2],
         'solution': solution[1:-1].split('|')
@@ -72,17 +72,29 @@ def division_generation(complexity):
 
 def root_generation(complexity):
     id_square, id_cube = 6, 47
+    a, b = None, None
+    a1, b1 = None, None
     problem, solution = None, None
     if complexity == 1:
-        problem, solution = mathgenerator.genById(id_square, 1, 12)
+        a, b = 1, 12
+        a1, b1 = 1, 5
+    if complexity == 2:
+        a, b = 12, 22
+        a1, b1 = 5, 10
+    if complexity == 3:
+        a, b = 22, 32
+        a1, b1 = 10, 15
+    n = random.randint(1, 3)
+    if n == 1:
+        problem, solution = mathgenerator.genById(id_square, a, b)
         problem = re.sub(r'{|}|\$|=|\\sqrt',
                          lambda match: {'{': '', '}': '', '$': '', '=': '', r'\sqrt': '√'}[match.group(0)], problem)
         solution = solution[1:-1]
-    if complexity == 2:
-        for_three = random.randint(1, 5)
+    if n == 2:
+        for_three = random.randint(a1, b1)
         problem, solution = f'∛{for_three ** 3}', f'{for_three}'
-    if complexity == 3:
-        for_four = random.randint(1, 5)
+    if n == 3:
+        for_four = random.randint(a1, b1)
         problem, solution = f'∜{for_four ** 4}', f'{for_four}'
     return {
         'problem': problem,
@@ -97,15 +109,15 @@ def power_generation(complexity):
         problem, solution = mathgenerator.genById(id_, 20)
     if complexity == 2:
         id_ = 53
-        problem, solution = mathgenerator.genById(id_, 5, 5)
+        problem, solution = mathgenerator.genById(id_, 10, 4)
         problem = problem[:-1]
     if complexity == 3:
         n = random.randint(1, 6)
-        for_add1, for_add2 = random.randint(1, 4), random.randint(1, 4)
-        for_sub1, for_sub2 = random.randint(1, 4), random.randint(1, 4)
+        for_add1, for_add2 = random.randint(1, 3), random.randint(1, 3)
+        for_sub1, for_sub2 = random.randint(1, 3), random.randint(1, 3)
         if for_sub1 < for_sub2:
             for_sub1, for_sub2 = for_sub2, for_sub1
-        for_multi1, for_multi2 = random.randint(1, 4), random.randint(1, 4)
+        for_multi1, for_multi2 = random.randint(1, 3), random.randint(1, 3)
         possible = [
             (f'${n}^{for_add1}*{n}^{for_add2}=$', f'${n ** (for_add1 + for_add2)}$'),
             (f'${n}^{for_sub1}:{n}^{for_sub2}=$', f'${n ** (for_sub1 - for_sub2)}$'),
@@ -149,7 +161,7 @@ def fractional_to_decimal_generation(complexity):
     problem = re.sub(r'\\div', '/', problem)
     solution = solution[1:-1]
     if len(solution) == 3:
-        solution = f'{solution}0'
+        solution = f'{solution}0|{solution}'
     return {
         'problem': problem[1:-2],
         'solution': solution.split('|')
@@ -160,11 +172,11 @@ def factorial_generation(complexity):
     id_ = 31
     problem, solution = None, None
     if complexity == 1:
-        problem, solution = mathgenerator.genById(id_, 6)
+        problem, solution = mathgenerator.genById(id_, 5)
     if complexity == 2:
-        problem, solution = mathgenerator.genById(id_, 10)
+        problem, solution = mathgenerator.genById(id_, 7)
     if complexity == 3:
-        problem, solution = mathgenerator.genById(id_, 14)
+        problem, solution = mathgenerator.genById(id_, 9)
     return {
         'problem': problem[1:-3],
         'solution': solution[1:-1].split('|')
@@ -177,9 +189,9 @@ def logarithm_generation(complexity):
     if complexity == 1:
         problem, solution = mathgenerator.genById(id_, 3, 6)
     if complexity == 2:
-        problem, solution = mathgenerator.genById(id_, 5, 8)
+        problem, solution = mathgenerator.genById(id_, 3, 8)
     if complexity == 3:
-        problem, solution = mathgenerator.genById(id_, 7, 10)
+        problem, solution = mathgenerator.genById(id_, 4, 10)
     problem = re.sub(r'_{(\d+)}',
                      lambda match: f'{chr(0x2080 + int(unicodedata.numeric(match.group(1))))}', problem)
     return {
@@ -216,9 +228,9 @@ def linear_equation_generation(complexity):
     if complexity == 1:
         problem, solution = mathgenerator.genById(id_simple, 20)
     if complexity == 2:
-        problem, solution = mathgenerator.genById(id_simple, 30)
+        problem, solution = mathgenerator.genById(id_simple, 220)
     if complexity == 3:
-        problem, solution = mathgenerator.genById(id_simple, 40)
+        problem, solution = mathgenerator.genById(id_simple, 420)
     return {
         'problem': problem[1:-1],
         'solution': solution[1:-1].split('|')
@@ -250,21 +262,29 @@ def linear_inequality_generation(complexity):
     operator = random.choice(operators)
     coefficient1, coefficient2, constant = None, None, None
     if complexity == 1:
-        coefficient1 = random.randint(1, 5)
-        coefficient2 = random.randint(1, 5)
-        constant = random.randint(1, 10)
+        coefficient1 = random.randint(1, 20)
+        coefficient2 = random.randint(1, 20)
+        constant = random.randint(1, 25)
+        while (coefficient1 - coefficient2) == 0 or constant % (coefficient1 - coefficient2) != 0:
+            coefficient1 = random.randint(1, 20)
+            coefficient2 = random.randint(1, 20)
+            constant = random.randint(1, 25)
     if complexity == 2:
-        coefficient1 = random.randint(-5, 5)
-        coefficient2 = random.randint(-5, 5)
-        constant = random.randint(-10, 10)
+        coefficient1 = random.randint(20, 120)
+        coefficient2 = random.randint(20, 120)
+        constant = random.randint(25, 125)
+        while (coefficient1 - coefficient2) == 0 or constant % (coefficient1 - coefficient2) != 0:
+            coefficient1 = random.randint(20, 120)
+            coefficient2 = random.randint(20, 120)
+            constant = random.randint(25, 125)
     if complexity == 3:
-        coefficient1 = random.randint(-10, 10)
-        coefficient2 = random.randint(-10, 10)
-        constant = random.randint(-20, 20)
-    while (coefficient1 - coefficient2) == 0 or constant % (coefficient1 - coefficient2) != 0:
-        coefficient1 = random.randint(-10, 10)
-        coefficient2 = random.randint(-10, 10)
-        constant = random.randint(-20, 20)
+        coefficient1 = random.randint(120, 420)
+        coefficient2 = random.randint(120, 420)
+        constant = random.randint(125, 425)
+        while (coefficient1 - coefficient2) == 0 or constant % (coefficient1 - coefficient2) != 0:
+            coefficient1 = random.randint(120, 420)
+            coefficient2 = random.randint(120, 420)
+            constant = random.randint(125, 425)
     swap_sides = random.choice([True, False])
     if swap_sides:
         problem = f"{coefficient2}{variable} + {constant} {operator} {coefficient1}{variable}"

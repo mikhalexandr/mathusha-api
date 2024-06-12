@@ -55,6 +55,19 @@ class UserResource(Resource):
         }, 200
 
 
+class UserNameResource(Resource):
+    @staticmethod
+    @authenticate
+    def patch():
+        session = db_session.create_session()
+        user = session.query(User).filter(User.id == g.user_id).first()
+        if user is None:
+            abort(404, message="User not found")
+        user.name = g.user_name
+        session.commit()
+        return {"message": "OK"}, 200
+
+
 class UserPhotoResource(Resource):
     @staticmethod
     @authenticate

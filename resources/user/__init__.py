@@ -1,4 +1,4 @@
-from .user import UserResource, UserPhotoResource
+from .user import UserResource, UserNameResource, UserPhotoResource
 from .topics import TopicsResource, TopicDescriptionResource, TopicsForMixResource, TopicPhotoResource
 from .tasks import TaskResource, SolvedTaskResource
 from .progress import ProgressResource

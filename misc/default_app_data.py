@@ -49,10 +49,10 @@ def create_default_data():
                color='#3F51B5', photo='5.png', placeholder='N', eng_placeholder='N')
     t6 = Topic(name='Степень',
                description='Степень — это число, возведенное в определенную степень. '
-                           'Например, 2 в степени 3 равно 8 (2^3 = 8)',
+                           'Например, 2 в степени 3 равно 8 (2³ = 8)',
                eng_name='Power',
                eng_description='A power is a number raised to a certain power. '
-                               'For example, 2 to the power of 3 is 8 (2^3 = 8)',
+                               'For example, 2 to the power of 3 is 8 (2³ = 8)',
                color='#2196F3', photo='6.png', placeholder='N', eng_placeholder='N')
     t7 = Topic(name='Дробь',
                description='Дробь — это число, которое представляет собой отношение двух целых чисел. '
@@ -71,57 +71,57 @@ def create_default_data():
     t9 = Topic(name='Логарифм',
                description='Логарифм числа по заданному основанию — это показатель степени, в которую нужно возвести основание, '
                            'чтобы получить данное число. '
-                           'Например, логарифм 100 по основанию 10 равен 2 (log10(100) = 2)',
+                           'Например, логарифм 9 по основанию 3 равен 2 (log₃(9) = 2)',
                eng_name='Logarithm',
                eng_description='The logarithm of a number to a given base is the exponent to which the base must be raised '
                                'to obtain the given number. '
-                               'For example, the logarithm of 100 to base 10 is 2 (log10(100) = 2)',
+                               'For example, the logarithm of 9 to base 3 is 2 (log₃(9) = 2)',
                color='#009688', photo='9.png', placeholder='N', eng_placeholder='N')
-    t10 = Topic(name='Тригонометрические значения',
+    t10 = Topic(name='Тригонометрия',
                 description='Тригонометрические значения — это значения синуса, косинуса, тангенса и '
                             'котангенса для заданного угла. Например, синус 30 градусов равен 0.5',
-                eng_name='Trigonometric values',
+                eng_name='Trigonometry',
                 eng_description='Trigonometric values are the values of sine, cosine, tangent, and '
                                 'cotangent for a given angle. For example, the sine of 30 degrees is 0.5',
                 color='#4CAF50', photo='10.png', placeholder='N | √N | √N/M | N/M | ∞', eng_placeholder='N | √N | √N/M | N/M | ∞')
     t11 = Topic(name='Линейное уравнение',
                 description='Линейное уравнение — это уравнение, которое представляет собой прямую линию '
-                            'в декартовой системе координат. Например, уравнение y = 2x + 1 — это линейное уравнение',
+                            'в декартовой системе координат. Например, уравнение 23 + x = 46 — это линейное уравнение',
                 eng_name='Linear equation',
                 eng_description='A linear equation is an equation that represents a straight line '
-                                'in the Cartesian coordinate system. For example, the equation y = 2x + 1 is a linear equation',
+                                'in the Cartesian coordinate system. For example, the equation 23 + x = 46 is a linear equation',
                 color='#8BC34A', photo='11.png', placeholder='N | N/M', eng_placeholder='N | N/M')
     t12 = Topic(name='Квадратное уравнение',
                 description='Квадратное уравнение — это уравнение, которое представляет собой параболу '
-                            'в декартовой системе координат. Например, уравнение y = x^2 + 2x - 3 — это квадратное уравнение',
+                            'в декартовой системе координат. Например, уравнение y = x² + 2x - 3 — это квадратное уравнение',
                 eng_name='Quadratic equation',
                 eng_description='A quadratic equation is an equation that represents a parabola '
-                                'in the Cartesian coordinate system. For example, the equation y = x^2 + 2x - 3 is a quadratic equation',
+                                'in the Cartesian coordinate system. For example, the equation y = x² + 2x - 3 is a quadratic equation',
                 color='#CDDC39', photo='12.png', placeholder='N, M', eng_placeholder='N, M')
     t13 = Topic(name='Линейное неравенство',
                 description='Линейное неравенство — это неравенство, которое представляет собой область '
-                            'в декартовой системе координат, ограниченную прямой линией. Например, неравенство y > 2x + 1 — '
+                            'в декартовой системе координат, ограниченную прямой линией. Например, неравенство x > 2x + 1 — '
                             'это линейное неравенство',
                 eng_name='Linear inequality',
                 eng_description='A linear inequality is an inequality that represents a region '
-                                'in the Cartesian coordinate system, bounded by a straight line. For example, the inequality y > 2x + 1 — '
+                                'in the Cartesian coordinate system, bounded by a straight line. For example, the inequality x > 2x + 1 — '
                                 'is a linear inequality',
-                color='#FFEB3B', photo='13.png', placeholder='x ≤ N | x ≥ N | x < N | x > N', eng_placeholder='x ≤ N | x ≥ N | x < N | x > N')
-    t14 = Topic(name='Смешанная задача',
-                description='Смешанная задача — это задача, которая включает в себя различные '
-                            'математические операции и понятия. Например, задача, которая требует решения линейного уравнения '
-                            'и нахождения факториала',
-                eng_name='Mixed problem',
-                eng_description='A mixed problem is a problem that involves various '
-                                'mathematical operations and concepts. For example, a problem that requires solving a linear equation '
-                                'and finding a factorial',
+                color='#FFEB3B', photo='13.png', placeholder='x < N | x > N | x ≤ N | x ≥ N', eng_placeholder='x < N | x > N | x ≤ N | x ≥ N')
+    t14 = Topic(name='Микс',
+                description='Микс — это задача, которая включает в себя различные '
+                            'математические операции и понятия. Можно выбрать любые доступные темы и потренировать их',
+                eng_name='Mix',
+                eng_description='A mix is a problem that involves various '
+                                'mathematical operations and concepts. You can choose any available topics and train them',
                 color='#FFC107', photo='14.png', placeholder='ВСЕ ВИДЫ ОТВЕТОВ', eng_placeholder='ALL TYPES OF ANSWERS')
     t15 = Topic(name='Yandex GPT',
                 description='Yandex GPT — это алгоритм машинного обучения, который может генерировать '
-                            'все, что угодно! Попробуйте победить нейросеть, ответив на ее математические вопросы!',
+                            'все, что угодно! Попробуйте победить нейросеть, ответив на ее математические вопросы!'
+                            'Аккуратно, это нейросеть, поэтому её ответы иногда могут быть нерпавильными',
                 eng_name='Yandex GPT',
                 eng_description='Yandex GPT is a machine learning algorithm that can generate '
-                                'anything! Try to beat the neural network by answering its math questions!',
+                                'anything! Try to beat the neural network by answering its math questions!'
+                                'Carefully, this is a neural network, so its answers may be incorrect',
                 color='#FF9800', photo='15.png', placeholder='N', eng_placeholder='N')
 
     for i in range(1, 16):
