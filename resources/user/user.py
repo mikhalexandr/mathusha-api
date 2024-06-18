@@ -3,13 +3,13 @@ from flask_restful import Resource, abort
 from werkzeug.utils import secure_filename
 import os
 
-import consts
 from keycloak_integration import authenticate
 from misc import allowed_file, allowed_file_size
 from data import db_session
 from data.users import User
 from data.achievements import Achievement
 from data.user_achievements import UserAchievement
+import consts
 
 
 class UserResource(Resource):

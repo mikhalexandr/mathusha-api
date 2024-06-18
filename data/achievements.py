@@ -1,5 +1,4 @@
 import sqlalchemy
-from sqlalchemy import orm
 
 from .db_session import SqlAlchemyBase
 
@@ -13,6 +12,6 @@ class Achievement(SqlAlchemyBase):
     photo = sqlalchemy.Column(sqlalchemy.String, default='default.jpg')
     description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     eng_description = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    type = sqlalchemy.Column(sqlalchemy.Float, nullable=False)
     taken = sqlalchemy.Column(sqlalchemy.Integer, default=0)
+    type = sqlalchemy.Column(sqlalchemy.Float, nullable=False)
     # 1 - place in top, 2 - amount of solved tasks, 3 - rating
