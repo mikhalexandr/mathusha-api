@@ -1,5 +1,4 @@
 .idea
 venv
 
-.env.api
-.env.postgres
+.env*
